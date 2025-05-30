@@ -46,7 +46,7 @@ const Header = ({ onMenuClick }) => {
               <FiMenu size={24} />
             </IconButton>
             <LogoText variant="h5">
-              Mi Formulario
+              Solicitud de aplicación Front End
             </LogoText>
           </Box>
           
