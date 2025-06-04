@@ -45,7 +45,7 @@ class Candidate(Base):
     # Paso 4: Habilidades técnicas
     html_css = Column(Integer)
     javascript = Column(Integer)
-    frameworks = Column(Integer)  # React, Layouting o Vue.js
+    frameworks = Column(Integer)  # React, Layouting, Vue.js o Angular
     responsive_design = Column(Integer)
     git = Column(Integer)
     performance_optimization = Column(Integer)
