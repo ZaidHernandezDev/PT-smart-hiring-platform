@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 from typing import Optional
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import datetime
@@ -15,22 +15,25 @@ Base = declarative_base()
 
 # Modelo SQLAlchemy
 class Candidate(Base):
-    _tablename_ = "candidates"
+    __tablename__ = "candidates"  # ← corregido
 
     id = Column(Integer, primary_key=True, index=True)
+
+    # Paso 1: Datos personales
     full_name = Column(String)
     age = Column(Integer)
     location = Column(String)
     availability = Column(String)
     start_date = Column(String)
 
+    # Paso 2: Datos de contacto
     email = Column(String)
     phone = Column(String)
     remote_experience = Column(String)
     portfolio_url = Column(String)
     salary_expectation = Column(String)
 
-    # Habilidades blandas
+    # Paso 3: Habilidades blandas
     teamwork = Column(Integer)
     time_management = Column(Integer)
     problem_solving = Column(Integer)
@@ -39,10 +42,10 @@ class Candidate(Base):
     autonomy = Column(Integer)
     english_level = Column(Integer)
 
-    # Habilidades técnicas
+    # Paso 4: Habilidades técnicas
     html_css = Column(Integer)
     javascript = Column(Integer)
-    frameworks = Column(Integer)
+    frameworks = Column(Integer)  # React, Layouting, Vue.js o Angular
     responsive_design = Column(Integer)
     git = Column(Integer)
     performance_optimization = Column(Integer)
@@ -58,18 +61,21 @@ Base.metadata.create_all(bind=engine)
 
 # Pydantic schema
 class CandidateCreate(BaseModel):
+    # Paso 1
     full_name: str
     age: int
     location: str
     availability: str
     start_date: str
 
+    # Paso 2
     email: str
     phone: str
     remote_experience: str
     portfolio_url: Optional[str]
     salary_expectation: str
 
+    # Paso 3
     teamwork: int = Field(ge=1, le=10)
     time_management: int = Field(ge=1, le=10)
     problem_solving: int = Field(ge=1, le=10)
@@ -78,6 +84,7 @@ class CandidateCreate(BaseModel):
     autonomy: int = Field(ge=1, le=10)
     english_level: int = Field(ge=1, le=10)
 
+    # Paso 4
     html_css: int = Field(ge=1, le=10)
     javascript: int = Field(ge=1, le=10)
     frameworks: int = Field(ge=1, le=10)
