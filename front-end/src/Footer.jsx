@@ -3,8 +3,9 @@ import { styled } from "styled-components";
 const FooterContainer = styled.footer`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-columns-gap: 10px;
-  background-color: #222;
+  grid-column-gap: 10px;
+  border-radius: 30px 30px 0 0 ;
+  background-color: #18300c;
   color: white;
   text-align: center;
   padding: 15px;
