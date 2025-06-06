@@ -11,7 +11,7 @@ const Header = styled.header`
 export default function () {
 
   return <Header>
-    <a><img src="" alt="Wudertec logo" /></a>
+    <h1 className='fs-4'><a><img src="#" alt="Wudertec logo" /></a></h1>
     <GreenButton href='#'>Iniciar sesión</GreenButton>
   </Header>;
 }
