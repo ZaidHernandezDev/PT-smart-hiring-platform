@@ -5,6 +5,7 @@ const Button = styled.a`
   text-transform: uppercase;
   color: white;
   border: none;
+  font-weight: 600;
 `;
 
 export default function GreenButton({ children, className, ...props }) {
