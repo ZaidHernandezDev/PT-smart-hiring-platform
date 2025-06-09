@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Button = styled.a`
   background-image: linear-gradient(90deg, #3a603f, #b3d168);
+  max-height: 2.25rem;
   text-transform: uppercase;
   color: white;
   border: none;

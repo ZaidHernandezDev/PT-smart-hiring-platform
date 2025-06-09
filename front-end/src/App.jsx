@@ -25,7 +25,7 @@ function App() {
 
   return (
     <AppContainer>
-      <Header />
+      <Header button='login' />
       <MainContent>
         <Title>Vacantes por área</Title>
         <BreadCrumb items={pages} />
