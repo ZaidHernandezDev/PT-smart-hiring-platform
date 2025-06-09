@@ -1,0 +1,19 @@
+import Title from '../styledElements/Title';
+import MainCard from '../MainCard';
+import JobCard from '../styledElements/JobCard';
+import BreadCrumb from '../styledElements/BreadCrumb';
+import { FaHome } from 'react-icons/fa';
+
+const pages = [{ label: 'Home', url: '/', icon: <FaHome /> }];
+
+export default function Home() {
+  return (
+    <>
+      <Title>Vacantes por área</Title>
+      <BreadCrumb items={pages} />
+      <MainCard title={'Tecnologías de la información'}>
+        <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
+      </MainCard>
+    </>
+  );
+}

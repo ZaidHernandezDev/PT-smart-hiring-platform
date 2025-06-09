@@ -8,8 +8,15 @@ const Wrapper = styled.div`
 `;
 
 const BreadCrumbItem = styled.a`
+  display: flex;
+  align-items: flex-end;
   color: #294919;
   text-decoration: none;
+
+  & span {
+    padding-bottom: 0.125rem;
+    margin: 0 0.125rem;
+  }
 `;
 
 export default function BreadCrumb({ items }) {
@@ -18,7 +25,8 @@ export default function BreadCrumb({ items }) {
       <Breadcrumbs>
         {items.map((item, index) =>
           index === items.length - 1 ? (
-            <BreadCrumbItem as="span" key={index} style={{ textDecoration: 'underline', fontWeight: 'bold', cursor: 'default' }}>
+            <BreadCrumbItem as="span" key={index} style={{ fontWeight: 'bold', cursor: 'default' }}>
+              {item.icon && <span>{item.icon}</span>}
               {item.label}
             </BreadCrumbItem>
           ) : (

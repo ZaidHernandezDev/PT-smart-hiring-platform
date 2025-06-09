@@ -2,10 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { styled } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-import Title from './styledElements/Title';
-import MainCard from './MainCard';
-import JobCard from './styledElements/JobCard';
-import BreadCrumb from './styledElements/BreadCrumb';
+import { Outlet } from 'react-router-dom';
+
 
 const AppContainer = styled.div`
   display: flex;
@@ -20,27 +18,15 @@ const MainContent = styled.div`
   flex-direction: column;
 `;
 
-function App() {
-  const pages = [{ label: 'Home', url: '#' },{ label: '1', url: '#' },{ label: '2', url: '#' },];
+export default function App() {
 
   return (
     <AppContainer>
       <Header button='login' />
       <MainContent>
-        <Title>Vacantes por área</Title>
-        <BreadCrumb items={pages} />
-        <MainCard title={'Tecnologías de la información'}>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-          <JobCard title="Front-end" image="https://picsum.photos/500/500"></JobCard>
-        </MainCard>
+        <Outlet />
       </MainContent>
       <Footer />
     </AppContainer>
   );
 }
-
-export default App;
