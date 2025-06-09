@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Card = styled.div`
@@ -34,7 +35,7 @@ const JobName = styled.h4`
   text-transform: uppercase;
 `;
 
-const BtnApply = styled.a`
+const BtnApply = styled(Link)`
   background-color: #fff;
   width: fit-content;
   margin: auto;
@@ -45,14 +46,14 @@ const BtnApply = styled.a`
   font-size: 1.2rem;
 `;
 
-export default function JobCard({ title, image }) {
+export default function JobCard({ title, image, link }) {
   return (
     <Card>
       <ImageContainer>
         <MainImage src={image} alt="Puesto disponible" />
         <JobName>{title}</JobName>
       </ImageContainer>
-      <BtnApply className="btn">Aplicar</BtnApply>
+      <BtnApply className="btn" to={link}>Aplicar</BtnApply>
     </Card>
   );
 }

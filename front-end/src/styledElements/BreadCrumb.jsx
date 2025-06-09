@@ -1,4 +1,5 @@
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -7,7 +8,7 @@ const Wrapper = styled.div`
   padding: 0.5rem 2rem;
 `;
 
-const BreadCrumbItem = styled.a`
+const BreadCrumbItem = styled(Link)`
   display: flex;
   align-items: flex-end;
   color: #294919;
@@ -30,7 +31,7 @@ export default function BreadCrumb({ items }) {
               {item.label}
             </BreadCrumbItem>
           ) : (
-            <BreadCrumbItem href={item.url} key={index}>
+            <BreadCrumbItem to={item.url} key={index}>
               {item.label}
             </BreadCrumbItem>
           )

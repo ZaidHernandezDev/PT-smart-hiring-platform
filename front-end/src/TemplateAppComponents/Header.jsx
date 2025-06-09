@@ -1,9 +1,12 @@
 import { styled } from 'styled-components';
+import { AuthContext } from '../Auth/AuthContext';
 import { FaUser } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
-import GreenButton from './styledElements/GreenButton';
+import GreenButton from '../styledElements/GreenButton';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
-const Header = styled.header`
+const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,15 +57,18 @@ const LogOut = styled.button`
   color: #294919;
 `;
 
-export default function ({ button }) {
+export default function Header({ button }) {
+  const { logout } = useContext(AuthContext);
+
+
   return (
-    <Header>
+    <HeaderWrapper>
       <h1 className="fs-4">
-        <a>
+        <Link to='/'>
           <img src="#" alt="Wudertec logo" />
-        </a>
+        </Link>
       </h1>
-      {button === 'login' && <GreenButton href="#">Iniciar sesión</GreenButton>}
+      {button === 'login' && <GreenButton to="/login">Iniciar sesión</GreenButton>}
 
       {button === 'username' && (
         <UserWrapper>
@@ -72,11 +78,11 @@ export default function ({ button }) {
               <FaUser />
             </UserIcon>
           </Userlabel>
-          <LogOut>
+          <LogOut onClick={logout}>
             <IoLogOutOutline />
           </LogOut>
         </UserWrapper>
       )}
-    </Header>
+    </HeaderWrapper>
   );
 }
