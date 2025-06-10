@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <Title>Vacantes por área</Title>
       <BreadCrumb items={pages} />
-      <MainCard title={'Tecnologías de la información'}>
+      <MainCard title={'Tecnologías de la información'} RowsHeight='17.5rem'>
         <JobCard title="Front-end" image="https://picsum.photos/500/500" link='/front-end'></JobCard>
       </MainCard>
     </>

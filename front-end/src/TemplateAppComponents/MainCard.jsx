@@ -20,17 +20,19 @@ const CardTitle = styled.h3`
 
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 31.3%);
-  grid-auto-rows: 17.5rem;
+  grid-template-columns: repeat(${({ cols }) => cols}, 1fr);
+  ${({ RowsHeight }) => (RowsHeight ? 'grid-auto-rows:' + RowsHeight + ';' : '')}
   gap: 2rem 3%;
   width: 100%;
 `;
 
-export default function MainCard({ title, children, size = 'medium' }) {
+export default function MainCard({ title, children, size = 'medium', cols = 3, RowsHeight}) {
   return (
     <Wrapper size={size}>
       {title && <CardTitle>{title}</CardTitle>}
-      <CardContainer>{children}</CardContainer>
+      <CardContainer cols={cols} RowsHeight={RowsHeight}>
+        {children}
+      </CardContainer>
     </Wrapper>
   );
 }

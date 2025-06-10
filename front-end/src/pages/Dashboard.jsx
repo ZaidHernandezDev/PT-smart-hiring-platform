@@ -12,7 +12,7 @@ const StyledTableContainer = styled(TableContainer)`
 
 const pages = [
   { label: 'Home', url: '/', icon: <FaHome /> },
-  { label: 'Dashboard', url: '/Dashboard' },
+  { label: 'Dashboard', url: '/dashboard' },
 ];
 
 const puestos = [
