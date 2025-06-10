@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Title from '../styledElements/Title';
 import MainCard from '../TemplateAppComponents/MainCard';
@@ -5,6 +6,7 @@ import BreadCrumb from '../styledElements/BreadCrumb';
 import DetailsCard from '../styledElements/DetailsCard';
 import { FaHome } from 'react-icons/fa';
 import styled from 'styled-components';
+import DialogDetails from '../styledElements/DialogDetails';
 
 const SectionWrapper = styled.div`
   display: grid;
@@ -66,6 +68,19 @@ const userData = [
 
 export default function Details() {
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleOpen = (user) => {
+    setSelectedUser(user);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedUser(null);
+  };
+
   const pages = [
     { label: 'Home', url: '/', icon: <FaHome /> },
     { label: 'Dashboard', url: '/dashboard' },
@@ -80,13 +95,15 @@ export default function Details() {
         <SectionWrapper border="#87a17e">
           <SectionTitle background="#87a17e80">Recomendados</SectionTitle>
           {userData.map((element, index) => (
-            <DetailsCard {...element} key={index}></DetailsCard>
+            <DetailsCard {...element} key={index} onClick={() => handleOpen(element)} />
           ))}
         </SectionWrapper>
         <SectionWrapper border="#be1e2d">
           <SectionTitle background="#be1e2d80">No recomendados</SectionTitle>
         </SectionWrapper>
       </MainCard>
+      {/* Modal de más información */}
+      <DialogDetails open={open} handleClose={handleClose} selectedUser={selectedUser}/>
     </>
   );
 }

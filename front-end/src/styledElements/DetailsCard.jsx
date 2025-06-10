@@ -4,19 +4,19 @@ import CardActionArea from '@mui/material/CardActionArea';
 import styled from 'styled-components';
 
 const Title = styled.h5`
-font-size: 1.125rem;
+  font-size: 1.125rem;
   text-align: center;
 `;
 
 const List = styled.ul`
-list-style-type: none;
-padding: 0;
+  list-style-type: none;
+  padding: 0;
 `;
 
-export default function DetailsCard({ name, mail, phone, salario }) {
+export default function DetailsCard({ name, mail, phone, salario, onClick }) {
   return (
-    <Card sx={{bgcolor: '#e0e0e0', border: 1}}>
-      <CardActionArea>
+    <Card sx={{ bgcolor: '#e0e0e0', border: 1 }}>
+      <CardActionArea onClick={onClick}>
         <CardContent>
           <Title>{name}</Title>
           <List>
