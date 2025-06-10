@@ -13,21 +13,57 @@ const schema = yup.object().shape({
 
 const LoginWrapper = styled.div`
   display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 3rem;
 `;
 
 const TitleWrapper = styled.div``;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  color: #6b6969;
+`;
 
-const SubTitle = styled.h3``;
+const SubTitle = styled.h3`
+  font-size: 1.375rem;
+  color: #294919;
+`;
 
-const FormWrapper = styled.form``;
+const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  gap: 0.5rem;
+`;
 
-const Label = styled.label``;
+const Label = styled.label`
+  align-self: center;
+  font-size: 1.5rem;
+  color: #294919;
+`;
 
-const Input = styled.input``;
+const Input = styled.input`
+  height: 3rem;
+  border: none;
+  border-radius: 3rem;
+  padding: 0 4%;
+`;
 
-const Button = styled.button``;
+const Button = styled.button`
+  background-image: linear-gradient(90deg, #3a603f, #b3d168);
+  margin: 1.5rem 2rem;
+  padding: 0.25rem 0;
+  border: none;
+  border-radius: 3rem;
+  color: white;
+  font-size: 1.25rem;
+`;
+
+const ErrorMessage = styled.p`
+  margin: 0 1rem;
+  color: red;
+`;
 
 export default function () {
   const redirect = useNavigate();
@@ -57,10 +93,10 @@ export default function () {
       <FormWrapper onSubmit={handleSubmit(submitter)}>
         <Label>Username</Label>
         <Input type="text" {...register('username')} />
-        {errors.username && <p>{errors.username.message}</p>} {/* Muestra error si aplica */}
+        {errors.username && <ErrorMessage>{errors.username.message}</ErrorMessage>}
         <Label>Password</Label>
         <Input type="password" {...register('password')} />
-        {errors.password && <p>{errors.password.message}</p>} {/* Muestra error si aplica */}
+        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         <Button type="submit">Iniciar sesión</Button>
       </FormWrapper>
     </LoginWrapper>
