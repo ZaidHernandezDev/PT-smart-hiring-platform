@@ -64,6 +64,25 @@ Esto levanta el frontend en http://localhost:5173
 
 ---
 
+📚 Recursos y Documentación
+
+Aquí puedes encontrar más información sobre las librerías utilizadas en este proyecto:
+
+- [@mui/material](https://mui.com/material-ui/getting-started/)
+- [Bootstrap](https://getbootstrap.com/docs/)
+- [Motion](https://motion.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [React Toastify](https://fkhadra.github.io/react-toastify/introduction/)
+- [Styled Components](https://styled-components.com/docs)
+- [SweetAlert2](https://sweetalert2.github.io/)
+- [SweetAlert2 React Content](https://github.com/sweetalert2/sweetalert2-react-content)
+- [Yup](https://github.com/jquense/yup)
+
+Estos enlaces te ayudarán a entender y aprovechar al máximo las herramientas que estás usando en este proyecto.
+
+---
+
 ### 🐍 Instalar el Backend
 
 ```bash

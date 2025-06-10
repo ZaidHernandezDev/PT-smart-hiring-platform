@@ -1,36 +1,39 @@
 from fastapi import FastAPI, Depends, HTTPException
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 from typing import Optional
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import datetime
 
-# Base de datos SQLite
+# SQLite Database
 DATABASE_URL = "sqlite:///./candidates.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 Base = declarative_base()
 
-# Modelo SQLAlchemy
+# SQLAlchemy Model
 class Candidate(Base):
-    _tablename_ = "candidates"
+    __tablename__ = "candidates"
 
     id = Column(Integer, primary_key=True, index=True)
+
+    # Step 1: Personal Information
     full_name = Column(String)
     age = Column(Integer)
     location = Column(String)
     availability = Column(String)
     start_date = Column(String)
 
+    # Step 2: Contact Information
     email = Column(String)
     phone = Column(String)
     remote_experience = Column(String)
     portfolio_url = Column(String)
     salary_expectation = Column(String)
 
-    # Habilidades blandas
+    # Step 3: Soft Skills
     teamwork = Column(Integer)
     time_management = Column(Integer)
     problem_solving = Column(Integer)
@@ -39,10 +42,10 @@ class Candidate(Base):
     autonomy = Column(Integer)
     english_level = Column(Integer)
 
-    # Habilidades técnicas
+    # Step 4: Technical Skills
     html_css = Column(Integer)
     javascript = Column(Integer)
-    frameworks = Column(Integer)
+    frameworks = Column(Integer)  # React, Layouting, Vue.js or Angular
     responsive_design = Column(Integer)
     git = Column(Integer)
     performance_optimization = Column(Integer)
@@ -51,25 +54,28 @@ class Candidate(Base):
     debugging = Column(Integer)
     testing = Column(Integer)
 
-    resultado = Column(Integer, default=None)  # 1 = apto, 0 = no apto
+    result = Column(Integer, default=None)  # 1 = suitable, 0 = not suitable
     created_at = Column(DateTime, default=datetime.utcnow)
 
 Base.metadata.create_all(bind=engine)
 
-# Pydantic schema
+# Pydantic Schema
 class CandidateCreate(BaseModel):
+    # Step 1
     full_name: str
     age: int
     location: str
     availability: str
     start_date: str
 
+    # Step 2
     email: str
     phone: str
     remote_experience: str
     portfolio_url: Optional[str]
     salary_expectation: str
 
+    # Step 3
     teamwork: int = Field(ge=1, le=10)
     time_management: int = Field(ge=1, le=10)
     problem_solving: int = Field(ge=1, le=10)
@@ -78,6 +84,7 @@ class CandidateCreate(BaseModel):
     autonomy: int = Field(ge=1, le=10)
     english_level: int = Field(ge=1, le=10)
 
+    # Step 4
     html_css: int = Field(ge=1, le=10)
     javascript: int = Field(ge=1, le=10)
     frameworks: int = Field(ge=1, le=10)
@@ -100,7 +107,7 @@ def get_db():
 # FastAPI app
 app = FastAPI()
 
-# Crear candidato
+# Create candidate
 @app.post("/candidates/")
 def create_candidate(candidate: CandidateCreate, db: Session = Depends(get_db)):
     db_candidate = Candidate(**candidate.dict())
@@ -109,17 +116,17 @@ def create_candidate(candidate: CandidateCreate, db: Session = Depends(get_db)):
     db.refresh(db_candidate)
     return db_candidate
 
-# Ver todos los candidatos
+# Get all candidates
 @app.get("/candidates/")
 def get_candidates(db: Session = Depends(get_db)):
     return db.query(Candidate).all()
 
-# Actualizar resultado (predicción)
-@app.put("/candidates/{candidate_id}/resultado")
-def update_resultado(candidate_id: int, resultado: int, db: Session = Depends(get_db)):
+# Update result
+@app.put("/candidates/{candidate_id}/result")
+def update_result(candidate_id: int, result: int, db: Session = Depends(get_db)):
     candidate = db.query(Candidate).filter(Candidate.id == candidate_id).first()
     if not candidate:
-        raise HTTPException(status_code=404, detail="Candidato no encontrado")
-    candidate.resultado = resultado
+        raise HTTPException(status_code=404, detail="Candidate not found")
+    candidate.result = result
     db.commit()
-    return {"message": f"Resultado actualizado a {resultado}"}
+    return {"message": f"Result updated to {result}"}
