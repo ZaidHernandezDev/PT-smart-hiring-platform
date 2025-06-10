@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 60%;
+  width: ${({ size }) => (size === 'small' ? '40%' : size === 'large' ? '80%' : '60%')};
   margin: 0 auto;
   padding: 0.5rem 2rem;
 `;
@@ -20,9 +20,9 @@ const BreadCrumbItem = styled(Link)`
   }
 `;
 
-export default function BreadCrumb({ items }) {
+export default function BreadCrumb({ items, size = 'medium' }) {
   return (
-    <Wrapper>
+    <Wrapper size={size}>
       <Breadcrumbs>
         {items.map((item, index) =>
           index === items.length - 1 ? (
@@ -32,6 +32,7 @@ export default function BreadCrumb({ items }) {
             </BreadCrumbItem>
           ) : (
             <BreadCrumbItem to={item.url} key={index}>
+              {item.icon && <span>{item.icon}</span>}
               {item.label}
             </BreadCrumbItem>
           )

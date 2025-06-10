@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -5,11 +6,6 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-
-const schema = yup.object().shape({
-  username: yup.string().required('El usuario es obligatorio'),
-  password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres'),
-});
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -65,6 +61,11 @@ const ErrorMessage = styled.p`
   color: red;
 `;
 
+const schema = yup.object().shape({
+  username: yup.string().required('El usuario es obligatorio'),
+  password: yup.string().required('La contraseña es obligatoria').min(6, 'La contraseña debe tener mínimo 6 caracteres'),
+});
+
 export default function () {
   const redirect = useNavigate();
 
@@ -79,9 +80,21 @@ export default function () {
   });
 
   const submitter = (data) => {
-    console.log('Datos enviados:', data);
     login(data.username);
-    redirect('/');
+    redirect('/dashboard');
+  };
+
+  const handleErrors = (formErrors) => {
+    const messages = Object.values(formErrors)
+      .map((err) => err.message)
+      .join('<br>');
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al iniciar sesión',
+      html: messages,
+      backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))'
+    });
   };
 
   return (
@@ -90,12 +103,12 @@ export default function () {
         <Title>RECURSOS HUMANOS</Title>
         <SubTitle>RECLUTAMIENTO</SubTitle>
       </TitleWrapper>
-      <FormWrapper onSubmit={handleSubmit(submitter)}>
-        <Label>Username</Label>
-        <Input type="text" {...register('username')} />
+      <FormWrapper onSubmit={handleSubmit(submitter, handleErrors)}>
+        <Label htmlFor="username">Username</Label>
+        <Input id="username" type="text" {...register('username')} />
         {errors.username && <ErrorMessage>{errors.username.message}</ErrorMessage>}
-        <Label>Password</Label>
-        <Input type="password" {...register('password')} />
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" type="password" {...register('password')} />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         <Button type="submit">Iniciar sesión</Button>
       </FormWrapper>

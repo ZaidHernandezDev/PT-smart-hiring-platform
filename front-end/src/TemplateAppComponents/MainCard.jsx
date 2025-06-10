@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 60%;
+  width: ${({ size }) => (size === 'small' ? '40%' : size === 'large' ? '80%' : '60%')};
   margin: 0 auto 5rem auto;
   padding: 1.5rem;
   background-color: #ffffff50;
@@ -26,10 +26,10 @@ const CardContainer = styled.div`
   width: 100%;
 `;
 
-export default function MainCard({ title, children }) {
+export default function MainCard({ title, children, size = 'medium' }) {
   return (
-    <Wrapper>
-      <CardTitle>{title}</CardTitle>
+    <Wrapper size={size}>
+      {title && <CardTitle>{title}</CardTitle>}
       <CardContainer>{children}</CardContainer>
     </Wrapper>
   );
