@@ -14,6 +14,8 @@ const hardSkills = [
   { name: 'testing', label: 'testing' },
 ];
 
+const marks = [1, 2, , 3, 4, 5, 6, 7, 8, 9, 10];
+
 export default function HardSkills() {
   const { control } = useFormContext();
 
@@ -32,6 +34,11 @@ export default function HardSkills() {
                   min={1}
                   max={10}
                   step={1}
+                  defaultValue={5}
+                  marks={Array.from({ length: 10 }, (_, i) => ({
+                    value: i + 1,
+                    label: String(i + 1),
+                  }))}
                   valueLabelDisplay="auto"
                 />
               </>

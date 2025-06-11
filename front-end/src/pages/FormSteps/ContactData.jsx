@@ -35,6 +35,12 @@ export default function ContactData() {
                   startAdornment: <InputAdornment position="start">+52</InputAdornment>,
                 },
               }}
+              type="number"
+              onKeyDown={(e) => {
+                if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                  e.preventDefault();
+                }
+              }}
             />
           )}
         />
@@ -68,7 +74,7 @@ export default function ContactData() {
           name="portFolioLink"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField fullWidth label="Link a portafolio" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
+            <TextField fullWidth label="Link a portafolio (Opcional)" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
           )}
         />
       </Grid>
@@ -89,6 +95,11 @@ export default function ContactData() {
                 input: {
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 },
+              }}
+              onKeyDown={(e) => {
+                if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                  e.preventDefault();
+                }
               }}
             />
           )}

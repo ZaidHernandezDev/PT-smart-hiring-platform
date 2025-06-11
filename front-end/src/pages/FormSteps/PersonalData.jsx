@@ -58,7 +58,19 @@ export default function PersonalData() {
           name="age"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField fullWidth type="number" label="Edad" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
+            <TextField
+              fullWidth
+              type="number"
+              label="Edad"
+              {...field}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
+              onKeyDown={(e) => {
+                if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                  e.preventDefault();
+                }
+              }}
+            />
           )}
         />
       </Grid>
@@ -70,6 +82,7 @@ export default function PersonalData() {
           render={({ field: { onChange, value }, fieldState }) => (
             <Autocomplete
               options={estadosMexico}
+              noOptionsText="No se encontraron resultados"
               value={value || ''}
               onChange={(_, newValue) => onChange(newValue)}
               renderInput={(params) => (

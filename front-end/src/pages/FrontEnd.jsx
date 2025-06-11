@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 
 import { steps, schemaArray, defaultValues } from './FormSteps/schemas';
 
@@ -15,6 +16,7 @@ import ContactData from './FormSteps/ContactData';
 import SoftSkills from './FormSteps/SoftSkills';
 import HardSkills from './FormSteps/HardSkills';
 import FormWrapper from '../styledElements/FormWrapper';
+import Swal from 'sweetalert2';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -27,7 +29,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const NavButton = styled(Button)`
-padding: 1.25rem 2rem !important;
+  padding: 1.25rem 2rem !important;
   background-image: linear-gradient(90deg, #254b2b, #9bc6a6);
   max-height: 2.25rem;
   text-transform: uppercase;
@@ -38,18 +40,30 @@ padding: 1.25rem 2rem !important;
 `;
 
 export default function FrontEnd() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const currentSchema = schemaArray[activeStep];
   const LAST_STEP = steps.length - 1;
 
   const methods = useForm({
     resolver: yupResolver(currentSchema),
+    mode: 'onTouched',
     defaultValues,
   });
 
   const onSubmit = (data) => {
     if (activeStep < LAST_STEP) setActiveStep((currentStep) => currentStep + 1);
-    else alert('Formulario enviado');
+    else
+      Swal.fire({
+        title: 'Solicitud guardada',
+        text: 'Tu solicitud ha sido guardada y será revisada por nuestro equipo de recursos humanos',
+        icon: 'success',
+        confirmButtonText: 'Ir a inicio',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => {
+        navigate('/');
+      });
   };
 
   const handleBack = () => {

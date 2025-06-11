@@ -2,12 +2,16 @@ import * as yup from 'yup';
 
 const schemas = {
   schemaPersonalData: yup.object({
-    name: yup.string().required('Nombre es obligatorio'),
+    name: yup
+      .string()
+      .required('Nombre es obligatorio')
+      .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, 'Solo se permiten letras y espacios'),
     age: yup
       .number()
       .typeError('Ingresa una edad válida')
       .required('Edad requerida')
       .positive('Ingresa una edad válida')
+      .min(18, 'Ingresa una edad válida')
       .max(100, 'Ingresa una edad válida'),
     state: yup.string().required('Estado de residencia es obligatorio'),
     fullTime: yup.string().oneOf(['Sí', 'No'], 'Selecciona una opción válida').required('Campo obligatorio'),
@@ -15,13 +19,16 @@ const schemas = {
   }),
 
   schemaContactData: yup.object({
-    mail: yup.string().email('Correo inválido').required('Correo es obligatorio'),
+    mail: yup
+      .string()
+      .matches(/^[a-zA-Z0-9._%+-áéíóúüñÑ]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Correo inválido')
+      .required('Correo es obligatorio'),
     phoneNumber: yup
       .string()
       .matches(/^[0-9]{10}$/, 'Debe tener 10 dígitos')
       .required('Teléfono obligatorio'),
     remoteExperience: yup.string().oneOf(['Sí', 'No'], 'Selecciona una opción válida').required('Campo obligatorio'),
-    portFolioLink: yup.string().url('Ingresa un link válido').required('Portafolio requerido'),
+    portFolioLink: yup.string().url('Ingresa un link válido'),
     salario: yup.number().typeError('Ingresa una cantidad válida').required('Salario requerido').positive(),
   }),
 

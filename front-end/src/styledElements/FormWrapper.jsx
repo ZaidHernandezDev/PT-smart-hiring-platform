@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 5rem;
-  gap: 1rem;
+  gap: 1rem 2rem;
 `;
 
 export default function FormWrapper({ children }) {
