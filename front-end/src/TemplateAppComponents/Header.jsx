@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { AuthContext } from '../Auth/AuthContext';
 import { FaUser } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
-import GreenButton from '../styledElements/GreenButton';
+import GreenLinkButton from '../styledElements/GreenLinkButton';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 
@@ -58,7 +58,7 @@ const LogOut = styled.button`
 `;
 
 export default function Header({ button }) {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
 
 
   return (
@@ -68,12 +68,12 @@ export default function Header({ button }) {
           <img src="#" alt="Wudertec logo" />
         </Link>
       </h1>
-      {button === 'login' && <GreenButton to="/login">Iniciar sesión</GreenButton>}
+      {button === 'login' && <GreenLinkButton to="/login">Iniciar sesión</GreenLinkButton>}
 
       {button === 'username' && (
         <UserWrapper>
           <Userlabel>
-            <UserName>Nombre de Usuario</UserName>
+            <UserName>{user}</UserName>
             <UserIcon>
               <FaUser />
             </UserIcon>
