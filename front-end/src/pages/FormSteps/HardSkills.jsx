@@ -18,7 +18,7 @@ export default function HardSkills() {
   const { control } = useFormContext();
 
   return (
-    <Grid container spacing={3}>
+    <>
       {hardSkills.map(({ name, label }) => (
         <Grid item xs={12} key={name}>
           <Controller
@@ -39,6 +39,6 @@ export default function HardSkills() {
           />
         </Grid>
       ))}
-    </Grid>
+    </>
   );
 }

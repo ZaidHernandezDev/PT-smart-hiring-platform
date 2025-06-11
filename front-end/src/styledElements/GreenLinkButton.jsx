@@ -10,7 +10,7 @@ const Button = styled(Link)`
   font-weight: 600;
 `;
 
-export default function GreenButton({ children, className, ...props }) {
+export default function GreenLinkButton({ children, className, ...props }) {
   return (
     <Button {...props} className={`btn rounded-4 ${className ?? ''}`.trim()}>
       {children}

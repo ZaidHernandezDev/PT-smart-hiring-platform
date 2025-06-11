@@ -14,7 +14,7 @@ export default function SoftSkills() {
   const { control } = useFormContext();
 
   return (
-    <Grid container spacing={3}>
+    <>
       {softSkills.map(({ name, label }) => (
         <Grid item xs={12} key={name}>
           <Controller
@@ -35,6 +35,6 @@ export default function SoftSkills() {
           />
         </Grid>
       ))}
-    </Grid>
+    </>
   );
 }
