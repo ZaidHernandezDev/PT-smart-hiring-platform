@@ -102,6 +102,7 @@ export default function () {
       <TitleWrapper>
         <Title>RECURSOS HUMANOS</Title>
         <SubTitle>RECLUTAMIENTO</SubTitle>
+         <img src="/img/monos.png" alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px' }} />
       </TitleWrapper>
       <FormWrapper onSubmit={handleSubmit(submitter, handleErrors)}>
         <Label htmlFor="username">Username</Label>
