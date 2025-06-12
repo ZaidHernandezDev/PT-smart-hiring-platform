@@ -21,8 +21,8 @@ const schemas = {
   schemaContactData: yup.object({
     mail: yup
       .string()
-      .matches(/^[a-zA-Z0-9._%+-áéíóúüñÑ]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Correo inválido')
-      .required('Correo es obligatorio'),
+      .required('Correo es obligatorio')
+      .matches(/^[a-zA-Z0-9._%+-áéíóúüñÑ]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Correo inválido'),
     phoneNumber: yup
       .string()
       .matches(/^[0-9]{10}$/, 'Debe tener 10 dígitos')

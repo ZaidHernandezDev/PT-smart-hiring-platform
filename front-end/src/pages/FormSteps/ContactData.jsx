@@ -1,6 +1,31 @@
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField, MenuItem, Grid } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
+import StyledField from '../../styledElements/StyledField';
+
+const FormWrapper = styled(motion.div)`
+  width: 80%;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 5rem;
+  gap: 1rem 2rem;
+`;
+
+const containerVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
 
 const opcionesSiNo = ['Sí', 'No'];
 
@@ -8,34 +33,31 @@ export default function ContactData() {
   const { control } = useFormContext();
 
   return (
-    <>
-      <Grid item xs={12} sm={6}>
+    <FormWrapper variants={containerVariants} initial="initial" animate="animate">
+      <motion.div variants={itemVariants}>
         <Controller
           name="mail"
           control={control}
-          render={({ field, fieldState }) => (
-            <TextField fullWidth label="Correo electrónico" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
-          )}
+          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Correo electrónico" name="mail" />}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="phoneNumber"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
+            <StyledField
+              type="number"
+              field={field}
+              fieldState={fieldState}
               label="Número telefónico"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
+              name="phoneNumber"
               slotProps={{
                 input: {
                   startAdornment: <InputAdornment position="start">+52</InputAdornment>,
                 },
               }}
-              type="number"
               onKeyDown={(e) => {
                 if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
                   e.preventDefault();
@@ -44,53 +66,45 @@ export default function ContactData() {
             />
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="remoteExperience"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              select
-              label="¿Tienes experiencia en remoto?"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
-            >
+            <StyledField select field={field} fieldState={fieldState} label="¿Tienes experiencia en remoto?" name="remoteExperience">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
                 </MenuItem>
               ))}
-            </TextField>
+            </StyledField>
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="portFolioLink"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField fullWidth label="Link a portafolio (Opcional)" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
+            <StyledField field={field} fieldState={fieldState} label="Link a portafolio (Opcional)" name="portFolioLink" />
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="salario"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
+            <StyledField
               type="number"
+              field={field}
+              fieldState={fieldState}
               label="Salario mensual deseado ($ MXN)"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
+              name="salario"
               slotProps={{
                 input: {
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -104,7 +118,7 @@ export default function ContactData() {
             />
           )}
         />
-      </Grid>
-    </>
+      </motion.div>
+    </FormWrapper>
   );
 }

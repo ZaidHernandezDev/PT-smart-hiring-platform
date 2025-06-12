@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   padding: 0.5rem 2rem;
 `;
 
-const BreadCrumbItem = styled(motion(Link))`
+const BreadCrumbItem = styled(motion.create(Link))`
   display: flex;
   align-items: flex-end;
   color: #294919;

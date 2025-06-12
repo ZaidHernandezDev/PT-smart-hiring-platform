@@ -1,5 +1,17 @@
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField, MenuItem, Grid, Autocomplete } from '@mui/material';
+import { TextField, MenuItem, Autocomplete } from '@mui/material';
+import StyledField from '../../styledElements/StyledField';
+
+const FormWrapper = styled(motion.div)`
+  width: 80%;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 5rem;
+  gap: 1rem 2rem;
+`;
 
 const estadosMexico = [
   'Aguascalientes',
@@ -36,35 +48,44 @@ const estadosMexico = [
   'Zacatecas',
 ];
 
+const containerVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
+
 const opcionesSiNo = ['Sí', 'No'];
 
 export default function PersonalData() {
   const { control } = useFormContext();
 
   return (
-    <>
-      <Grid item xs={12} sm={6}>
+    <FormWrapper variants={containerVariants} initial="initial" animate="animate">
+      <motion.div variants={itemVariants}>
         <Controller
           name="name"
           control={control}
-          render={({ field, fieldState }) => (
-            <TextField fullWidth label="Nombre completo" {...field} error={!!fieldState.error} helperText={fieldState.error?.message} />
-          )}
+          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Nombre completo" name="name" />}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="age"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              type="number"
+            <StyledField
+              field={field}
+              fieldState={fieldState}
               label="Edad"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
+              name="age"
               onKeyDown={(e) => {
                 if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
                   e.preventDefault();
@@ -73,9 +94,9 @@ export default function PersonalData() {
             />
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={6}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="state"
           control={control}
@@ -91,53 +112,39 @@ export default function PersonalData() {
             />
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={3}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="fullTime"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              select
-              label="¿Disponibilidad tiempo completo?"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
-            >
+            <StyledField select field={field} fieldState={fieldState} label="¿Disponibilidad tiempo completo?" name="fullTime">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
                 </MenuItem>
               ))}
-            </TextField>
+            </StyledField>
           )}
         />
-      </Grid>
+      </motion.div>
 
-      <Grid item xs={12} sm={3}>
+      <motion.div variants={itemVariants}>
         <Controller
           name="startNow"
           control={control}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              select
-              label="¿Puedes comenzar de inmediato?"
-              {...field}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
-            >
+            <StyledField select field={field} fieldState={fieldState} label="¿Puedes comenzar de inmediato?" name="startNow">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
                 </MenuItem>
               ))}
-            </TextField>
+            </StyledField>
           )}
         />
-      </Grid>
-    </>
+      </motion.div>
+    </FormWrapper>
   );
 }

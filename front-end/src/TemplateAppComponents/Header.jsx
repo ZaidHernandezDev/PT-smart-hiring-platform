@@ -5,12 +5,25 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { motion } from 'framer-motion';
+import brandImage from '../../public/img/logo.png';
 
 const HeaderWrapper = styled(motion.header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 75px;
+`;
+
+const Brand = styled(motion.h1)`
+  height: 4.5rem;
+`;
+
+const ImageContainer = styled(Link)``;
+
+const BrandImage = styled.img`
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
 `;
 
 const LogInButton = styled(motion.create(Link))`
@@ -78,17 +91,16 @@ const Logo = styled.img`
   width: auto;
 `;
 
-
 export default function Header({ button }) {
   const { logout, user } = useContext(AuthContext);
 
   return (
     <HeaderWrapper initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
-      <motion.h1 className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
-        <Link to="/">
-          <img src="/img/logo.png" alt="Wudertec logo" />
-        </Link>
-      </motion.h1>
+      <Brand className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+        <ImageContainer to="/">
+          <BrandImage src={brandImage} alt="Wudertec logo" />
+        </ImageContainer>
+      </Brand>
       {button === 'login' && (
         <LogInButton to="/login" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
           Iniciar sesión
@@ -98,7 +110,7 @@ export default function Header({ button }) {
       {button === 'username' && (
         <UserWrapper>
           <Userlabel whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
-            <UserName whileHover={{cursor: 'default'}}>{user}</UserName>
+            <UserName whileHover={{ cursor: 'default' }}>{user}</UserName>
             <UserIcon>
               <FaUser />
             </UserIcon>

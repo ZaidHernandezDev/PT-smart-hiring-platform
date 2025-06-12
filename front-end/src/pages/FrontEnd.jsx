@@ -15,8 +15,8 @@ import PersonalData from './FormSteps/PersonalData';
 import ContactData from './FormSteps/ContactData';
 import SoftSkills from './FormSteps/SoftSkills';
 import HardSkills from './FormSteps/HardSkills';
-import FormWrapper from '../styledElements/FormWrapper';
 import Swal from 'sweetalert2';
+import { motion } from 'motion/react';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -59,6 +59,7 @@ export default function FrontEnd() {
         text: 'Tu solicitud ha sido guardada y será revisada por nuestro equipo de recursos humanos',
         icon: 'success',
         confirmButtonText: 'Ir a inicio',
+        confirmButtonColor: '#18300c',
         allowOutsideClick: false,
         allowEscapeKey: false,
       }).then(() => {
@@ -81,14 +82,12 @@ export default function FrontEnd() {
           ))}
         </Stepper>
 
-        <FormWrapper>
-          {activeStep === 0 && <PersonalData />}
-          {activeStep === 1 && <ContactData />}
-          {activeStep === 2 && <SoftSkills />}
-          {activeStep === 3 && <HardSkills />}
-        </FormWrapper>
+        {activeStep === 0 && <PersonalData />}
+        {activeStep === 1 && <ContactData />}
+        {activeStep === 2 && <SoftSkills />}
+        {activeStep === 3 && <HardSkills />}
 
-        <ButtonWrapper sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <ButtonWrapper>
           {activeStep > 0 && (
             <NavButton variant="contained" onClick={handleBack}>
               Atrás

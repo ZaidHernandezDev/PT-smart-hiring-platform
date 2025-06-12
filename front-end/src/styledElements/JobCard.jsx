@@ -35,7 +35,7 @@ const JobName = styled.h4`
   text-transform: uppercase;
 `;
 
-const BtnApply = styled(motion(Link))`
+const BtnApply = styled(motion.create(Link))`
   background-image: linear-gradient(90deg, white, white);
   width: fit-content;
   margin: auto;
