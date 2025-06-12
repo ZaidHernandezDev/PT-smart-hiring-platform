@@ -56,6 +56,11 @@ const LogOut = styled.button`
   line-height: 0;
   color: #294919;
 `;
+const Logo = styled.img`
+  height: 60px;
+  width: auto;
+`;
+
 
 export default function Header({ button }) {
   const { logout, user } = useContext(AuthContext);
@@ -65,7 +70,7 @@ export default function Header({ button }) {
     <HeaderWrapper>
       <h1 className="fs-4">
         <Link to='/'>
-          <img src="#" alt="Wudertec logo" />
+          <Logo src="/img/logo.png" alt="Wudertec logo" />
         </Link>
       </h1>
       {button === 'login' && <GreenLinkButton to="/login">Iniciar sesión</GreenLinkButton>}
