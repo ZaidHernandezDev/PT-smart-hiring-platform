@@ -15,10 +15,19 @@ const HeaderWrapper = styled(motion.header)`
 
 const LogInButton = styled(motion.create(Link))`
   background-image: linear-gradient(90deg, #3a603f, #b3d168);
-  max-height: 2.25rem;
+  padding: 0.375rem 1rem;
   text-transform: uppercase;
-  border: none;
+  border: 2px solid;
+  border-radius: 1rem;
   font-weight: 600;
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    background-image: linear-gradient(90deg, white, white);
+    color: #294919;
+    border: 2px solid #294919;
+  }
 `;
 
 const UserWrapper = styled.div`
@@ -32,7 +41,7 @@ const Userlabel = styled(motion.div)`
   border-radius: 2.5rem;
 `;
 
-const UserName = styled.p`
+const UserName = styled(motion.p)`
   margin: 0 1rem 0 1.5rem;
   font-size: 1.375rem;
   line-height: 3rem;
@@ -76,13 +85,7 @@ export default function Header({ button }) {
         </Link>
       </motion.h1>
       {button === 'login' && (
-        <LogInButton
-          to="/login"
-          className="btn rounded-4"
-          whileTap={{ scale: 0.95 }}
-          whileHover={{ scale: 1.1, color: 'white' }}
-          style={{ color: 'white' }}
-        >
+        <LogInButton to="/login" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
           Iniciar sesión
         </LogInButton>
       )}
@@ -90,12 +93,12 @@ export default function Header({ button }) {
       {button === 'username' && (
         <UserWrapper>
           <Userlabel whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
-            <UserName>{user}</UserName>
+            <UserName whileHover={{cursor: 'default'}}>{user}</UserName>
             <UserIcon>
               <FaUser />
             </UserIcon>
           </Userlabel>
-          <LogOut onClick={logout} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1, rotate: 10 }}  >
+          <LogOut onClick={logout} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1, rotate: 10 }}>
             <IoLogOutOutline />
           </LogOut>
         </UserWrapper>

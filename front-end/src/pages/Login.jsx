@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -46,14 +47,23 @@ const Input = styled.input`
   padding: 0 4%;
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button)`
   background-image: linear-gradient(90deg, #3a603f, #b3d168);
   margin: 1.5rem 2rem;
-  padding: 0.25rem 0;
-  border: none;
+  padding: 0.375rem 1rem;
+  text-transform: uppercase;
+  border: 2px solid #dce6d8;
   border-radius: 3rem;
+  font-weight: 600;
+  text-decoration: none;
   color: white;
   font-size: 1.25rem;
+
+  &:hover {
+    background-image: linear-gradient(90deg, white, white);
+    color: #294919;
+    border: 2px solid #294919;
+  }
 `;
 
 const ErrorMessage = styled.p`
@@ -93,7 +103,7 @@ export default function () {
       icon: 'error',
       title: 'Error al iniciar sesión',
       html: messages,
-      backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))'
+      backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))',
     });
   };
 
@@ -110,7 +120,9 @@ export default function () {
         <Label htmlFor="password">Password</Label>
         <Input id="password" type="password" {...register('password')} />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
-        <Button type="submit">Iniciar sesión</Button>
+        <Button type="submit" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+          Iniciar sesión
+        </Button>
       </FormWrapper>
     </LoginWrapper>
   );
