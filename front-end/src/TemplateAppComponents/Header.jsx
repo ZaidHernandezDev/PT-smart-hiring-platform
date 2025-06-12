@@ -2,15 +2,23 @@ import { styled } from 'styled-components';
 import { AuthContext } from '../Auth/AuthContext';
 import { FaUser } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
-import GreenLinkButton from '../styledElements/GreenLinkButton';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import { color, motion } from 'motion/react';
 
-const HeaderWrapper = styled.header`
+const HeaderWrapper = styled(motion.header)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 75px;
+`;
+
+const LogInButton = styled(motion.create(Link))`
+  background-image: linear-gradient(90deg, #3a603f, #b3d168);
+  max-height: 2.25rem;
+  text-transform: uppercase;
+  border: none;
+  font-weight: 600;
 `;
 
 const UserWrapper = styled.div`
@@ -18,7 +26,7 @@ const UserWrapper = styled.div`
   gap: 1rem;
 `;
 
-const Userlabel = styled.div`
+const Userlabel = styled(motion.div)`
   display: flex;
   background-color: #87a17e;
   border-radius: 2.5rem;
@@ -44,7 +52,7 @@ const UserIcon = styled.span`
   overflow: hidden;
 `;
 
-const LogOut = styled.button`
+const LogOut = styled(motion.button)`
   margin: 0;
   padding: 0;
   width: 3rem;
@@ -60,25 +68,34 @@ const LogOut = styled.button`
 export default function Header({ button }) {
   const { logout, user } = useContext(AuthContext);
 
-
   return (
-    <HeaderWrapper>
-      <h1 className="fs-4">
-        <Link to='/'>
+    <HeaderWrapper initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
+      <motion.h1 className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+        <Link to="/">
           <img src="#" alt="Wudertec logo" />
         </Link>
-      </h1>
-      {button === 'login' && <GreenLinkButton to="/login">Iniciar sesión</GreenLinkButton>}
+      </motion.h1>
+      {button === 'login' && (
+        <LogInButton
+          to="/login"
+          className="btn rounded-4"
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.1, color: 'white' }}
+          style={{ color: 'white' }}
+        >
+          Iniciar sesión
+        </LogInButton>
+      )}
 
       {button === 'username' && (
         <UserWrapper>
-          <Userlabel>
+          <Userlabel whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
             <UserName>{user}</UserName>
             <UserIcon>
               <FaUser />
             </UserIcon>
           </Userlabel>
-          <LogOut onClick={logout}>
+          <LogOut onClick={logout} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1, rotate: 10 }}  >
             <IoLogOutOutline />
           </LogOut>
         </UserWrapper>

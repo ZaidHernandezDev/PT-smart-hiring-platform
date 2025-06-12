@@ -6,6 +6,7 @@ import { styled } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 const AppContainer = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const AppContainer = styled.div`
   background-image: linear-gradient(180deg, #fff, #a6bf9d);
 `;
 
-const MainContent = styled.div`
+const MainContent = styled(motion.div)`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -34,7 +35,7 @@ export default function App() {
   return (
     <AppContainer>
       <Header button={headerButton} />
-      <MainContent>
+      <MainContent initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
         <Outlet />
       </MainContent>
       <Footer />

@@ -21,16 +21,16 @@ const CardTitle = styled.h3`
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(${({ cols }) => cols}, 1fr);
-  ${({ RowsHeight }) => (RowsHeight ? 'grid-auto-rows:' + RowsHeight + ';' : '')}
+  ${({ rowsHeight }) => (rowsHeight ? 'grid-auto-rows:' + rowsHeight + ';' : '')}
   gap: 2rem 3%;
   width: 100%;
 `;
 
-export default function MainCard({ title, children, size = 'medium', cols = 3, RowsHeight}) {
+export default function MainCard({ title, children, size = 'medium', cols = 3, rowsHeight}) {
   return (
     <Wrapper size={size}>
       {title && <CardTitle>{title}</CardTitle>}
-      <CardContainer cols={cols} RowsHeight={RowsHeight}>
+      <CardContainer cols={cols} rowsHeight={rowsHeight}>
         {children}
       </CardContainer>
     </Wrapper>
