@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TextField, MenuItem, Autocomplete } from '@mui/material';
 import StyledField from '../../styledElements/StyledField';
+import useResponsiveValues from '../../Hooks/useResponsiveValues';
 
 const FormWrapper = styled(motion.div)`
-  width: 80%;
-  margin: 2rem auto;
+  width: ${({ $stepper }) => ($stepper === 'vertical' ? '100%' : '80%')};
+  margin: 2rem auto 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(${({ $cols }) => $cols}, 1fr);
   grid-auto-rows: 5rem;
   gap: 1rem 2rem;
 `;
@@ -63,11 +64,12 @@ const itemVariants = {
 
 const opcionesSiNo = ['Sí', 'No'];
 
-export default function PersonalData() {
+export default function PersonalData({ $currentStepper }) {
+  const cols = useResponsiveValues([{ width: 400, value: 1 }], 2);
   const { control } = useFormContext();
 
   return (
-    <FormWrapper variants={containerVariants} initial="initial" animate="animate">
+    <FormWrapper $stepper={$currentStepper} $cols={cols} variants={containerVariants} initial="initial" animate="animate">
       <motion.div variants={itemVariants}>
         <Controller
           name="name"

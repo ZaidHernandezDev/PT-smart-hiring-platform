@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   background-color: #ffffff50;
   border: 1px solid #88b87660;
   border-radius: 2rem;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
 const CardTitle = styled.h3`

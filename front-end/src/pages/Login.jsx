@@ -7,9 +7,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
+import monos from '/img/monos.png';
 
 const LoginWrapper = styled.div`
   display: flex;
+  flex-direction: ${({ $direction }) => $direction};
   flex: 1;
   justify-content: space-evenly;
   align-items: center;
@@ -30,7 +33,7 @@ const SubTitle = styled.h3`
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: ${({ $width }) => $width};
   gap: 0.5rem;
 `;
 
@@ -45,6 +48,7 @@ const Input = styled.input`
   border: none;
   border-radius: 3rem;
   padding: 0 4%;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
 const Button = styled(motion.button)`
@@ -77,6 +81,15 @@ const schema = yup.object().shape({
 });
 
 export default function () {
+  const direction = useResponsiveValues([{ width: 850, value: 'column' }], 'row');
+  const displayImage = useResponsiveValues([{ width: 850, value: 'none' }], 'block');
+  const formWidth = useResponsiveValues(
+    [
+      { width: 425, value: '90vw' },
+      { width: 850, value: '60vw' },
+    ],
+    '30vw'
+  );
   const redirect = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -108,13 +121,13 @@ export default function () {
   };
 
   return (
-    <LoginWrapper>
+    <LoginWrapper $direction={direction}>
       <TitleWrapper>
         <Title>RECURSOS HUMANOS</Title>
         <SubTitle>RECLUTAMIENTO</SubTitle>
-        <img src="/img/monos.png" alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px' }} />
+        <img src={monos} alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px', display: displayImage }} />
       </TitleWrapper>
-      <FormWrapper onSubmit={handleSubmit(submitter, handleErrors)}>
+      <FormWrapper $width={formWidth} onSubmit={handleSubmit(submitter, handleErrors)}>
         <Label htmlFor="username">Username</Label>
         <Input id="username" type="text" {...register('username')} />
         <AnimatePresence mode="wait">

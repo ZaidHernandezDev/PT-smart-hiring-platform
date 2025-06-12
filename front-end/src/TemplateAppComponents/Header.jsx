@@ -1,14 +1,19 @@
+import { useState, useContext } from 'react';
+import { motion } from 'framer-motion';
 import { styled } from 'styled-components';
 import { AuthContext } from '../Auth/AuthContext';
-import { FaUser } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { IoLogOutOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { motion } from 'framer-motion';
+import { FaUser } from 'react-icons/fa';
+import Tooltip from '@mui/material/Tooltip';
 import brandImage from '../../public/img/logo.png';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
 
 const HeaderWrapper = styled(motion.header)`
   display: flex;
+  flex-direction: ${({$direction}) => $direction};
   justify-content: space-between;
   align-items: center;
   padding: 20px 75px;
@@ -16,6 +21,7 @@ const HeaderWrapper = styled(motion.header)`
 
 const Brand = styled(motion.h1)`
   height: 4.5rem;
+  width: 18rem;
 `;
 
 const ImageContainer = styled(Link)``;
@@ -52,6 +58,7 @@ const Userlabel = styled(motion.div)`
   display: flex;
   background-color: #87a17e;
   border-radius: 2.5rem;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
 const UserName = styled(motion.p)`
@@ -85,6 +92,7 @@ const LogOut = styled(motion.button)`
   font-size: 2rem;
   line-height: 0;
   color: #294919;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 const Logo = styled.img`
   height: 60px;
@@ -92,15 +100,39 @@ const Logo = styled.img`
 `;
 
 export default function Header({ button }) {
+  const direction = useResponsiveValues([{ width: 715, value: 'column' }], 'row');
   const { logout, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const redirectDashboard = () => {
+    navigate('/dashboard');
+    handleClose();
+  };
 
   return (
-    <HeaderWrapper initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
-      <Brand className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
-        <ImageContainer to="/">
-          <BrandImage src={brandImage} alt="Wudertec logo" />
-        </ImageContainer>
-      </Brand>
+    <HeaderWrapper
+      $direction={direction}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 75 }}
+    >
+      <Tooltip title="Ir a inicio">
+        <Brand className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+          <ImageContainer to="/">
+            <BrandImage src={brandImage} alt="Wudertec logo" />
+          </ImageContainer>
+        </Brand>
+      </Tooltip>
       {button === 'login' && (
         <LogInButton to="/login" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
           Iniciar sesión
@@ -109,15 +141,38 @@ export default function Header({ button }) {
 
       {button === 'username' && (
         <UserWrapper>
-          <Userlabel whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+          <Userlabel whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }} onClick={handleClick}>
             <UserName whileHover={{ cursor: 'default' }}>{user}</UserName>
             <UserIcon>
               <FaUser />
             </UserIcon>
           </Userlabel>
-          <LogOut onClick={logout} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1, rotate: 10 }}>
-            <IoLogOutOutline />
-          </LogOut>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            slotProps={{
+              list: {
+                'aria-labelledby': 'basic-button',
+              },
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem onClick={redirectDashboard}>Ir a dashboard</MenuItem>
+          </Menu>
+          <Tooltip title="Cerrar sesión">
+            <LogOut onClick={logout} whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1, rotate: 10 }}>
+              <IoLogOutOutline />
+            </LogOut>
+          </Tooltip>
         </UserWrapper>
       )}
     </HeaderWrapper>

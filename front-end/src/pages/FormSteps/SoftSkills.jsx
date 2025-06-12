@@ -2,23 +2,24 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Typography, Slider } from '@mui/material';
+import useResponsiveValues from '../../Hooks/useResponsiveValues';
 
 const FormWrapper = styled(motion.div)`
-  width: 80%;
-  margin: 2rem auto;
+  width: ${({ $stepper }) => ($stepper === 'vertical' ? '100%' : '80%')};
+  margin: 2rem auto 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(${({ $cols }) => $cols}, 1fr);
   grid-auto-rows: 5rem;
   gap: 1rem 2rem;
 `;
 
 const softSkills = [
   { name: 'trabajoRemoto', label: 'Capacidad de trabajar en equipo remotamente.' },
-  { name: 'gestionTiempo', label: 'Gestionar tiempos y cumplir plazos.' },
-  { name: 'resolverProblemas', label: 'Capacidad para resolver problemas.' },
+  { name: 'time_management', label: 'Gestionar tiempos y cumplir plazos.' },
+  { name: 'problem_solving', label: 'Capacidad para resolver problemas.' },
   { name: 'usoHerramientas', label: 'Adaptabilidad de uso de herramientas.' },
-  { name: 'comunicacion', label: 'Nivel de comunicación con el equipo.' },
-  { name: 'autonomia', label: 'Grado de autonomía.' },
+  { name: 'communication', label: 'Nivel de comunicación con el equipo.' },
+  { name: 'autonomy', label: 'Grado de autonomía.' },
 ];
 
 const containerVariants = {
@@ -34,11 +35,12 @@ const itemVariants = {
   animate: { opacity: 1, y: 0 },
 };
 
-export default function SoftSkills() {
+export default function SoftSkills({ $currentStepper }) {
+  const cols = useResponsiveValues([{ width: 900, value: 1 }], 2);
   const { control } = useFormContext();
 
   return (
-    <FormWrapper variants={containerVariants} initial="initial" animate="animate">
+    <FormWrapper $stepper={$currentStepper} $cols={cols} variants={containerVariants} initial="initial" animate="animate">
       {softSkills.map(({ name, label }) => (
         <motion.div variants={itemVariants} key={name}>
           <Controller

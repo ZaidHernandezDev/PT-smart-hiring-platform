@@ -14,6 +14,7 @@ const ImageContainer = styled.div`
   margin-bottom: 0.5rem;
   background-color: white;
   border-radius: 1rem;
+  box-shadow: 0.25rem 0.25rem 0.35rem #ccc;
 `;
 
 const MainImage = styled.img`
@@ -45,6 +46,7 @@ const BtnApply = styled(motion.create(Link))`
   color: #294919;
   letter-spacing: 0.025rem;
   font-size: 1.2rem;
+  box-shadow: 0.25rem 0.25rem 0.35rem #ccc;
 
   &:hover {
     background-image: linear-gradient(90deg, #3a603f, #b3d168);

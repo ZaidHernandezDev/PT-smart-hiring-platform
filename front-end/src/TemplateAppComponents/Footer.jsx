@@ -2,10 +2,11 @@ import { styled } from 'styled-components';
 import { motion } from 'motion/react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { FaSquareXTwitter } from 'react-icons/fa6';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
 
 const FooterContainer = styled(motion.footer)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: ${({ $cols }) => `repeat(${$cols}, 1fr)`};
   grid-column-gap: 0.625rem;
   border-radius: 2rem 2rem 0 0;
   background-color: #18300c;
@@ -51,8 +52,10 @@ const IconLi = styled.li`
 `;
 
 export default function Footer() {
+  const cols = useResponsiveValues([{ width: 700, value: 1 }], 3);
+
   return (
-    <FooterContainer initial={{ y: 100, opacity: 0 }} animate={{ y: 10, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
+    <FooterContainer $cols={cols} initial={{ y: 100, opacity: 0 }} animate={{ y: 10, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
       <div>
         <h5>Información de contacto</h5>
         <TextList>

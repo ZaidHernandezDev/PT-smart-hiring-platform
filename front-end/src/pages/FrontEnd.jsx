@@ -10,20 +10,21 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
+import StepContent from '@mui/material/StepContent';
 
 import PersonalData from './FormSteps/PersonalData';
 import ContactData from './FormSteps/ContactData';
 import SoftSkills from './FormSteps/SoftSkills';
 import HardSkills from './FormSteps/HardSkills';
-import Swal from 'sweetalert2';
-import { motion } from 'motion/react';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
 
 const StyledForm = styled.form`
-  width: 100%;
+  width: ${({ $type }) => ($type === 'vertical' ? '90%' : '100%')};
   margin: 2rem auto;
 `;
 
 const ButtonWrapper = styled.div`
+  margin-top: 2rem;
   display: flex;
   justify-content: space-around;
 `;
@@ -40,7 +41,8 @@ const NavButton = styled(Button)`
 `;
 
 export default function FrontEnd() {
-  const navigate = useNavigate();
+  const stepperOrientation = useResponsiveValues([{ width: 700, value: 'vertical' }], 'horizontal');
+
   const [activeStep, setActiveStep] = useState(0);
   const currentSchema = schemaArray[activeStep];
   const LAST_STEP = steps.length - 1;
@@ -51,20 +53,13 @@ export default function FrontEnd() {
     defaultValues,
   });
 
-  const onSubmit = (data) => {
-    if (activeStep < LAST_STEP) setActiveStep((currentStep) => currentStep + 1);
-    else
-      Swal.fire({
-        title: 'Solicitud guardada',
-        text: 'Tu solicitud ha sido guardada y será revisada por nuestro equipo de recursos humanos',
-        icon: 'success',
-        confirmButtonText: 'Ir a inicio',
-        confirmButtonColor: '#18300c',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(() => {
-        navigate('/');
-      });
+  const onSubmit = async (data) => {
+    if (activeStep < LAST_STEP) {
+      setActiveStep((currentStep) => currentStep + 1);
+      return;
+    }
+
+    console.log('data', data);
   };
 
   const handleBack = () => {
@@ -73,19 +68,30 @@ export default function FrontEnd() {
 
   return (
     <FormProvider {...methods}>
-      <StyledForm onSubmit={methods.handleSubmit(onSubmit)}>
-        <Stepper activeStep={activeStep} alternativeLabel>
+      <StyledForm $type={stepperOrientation} onSubmit={methods.handleSubmit(onSubmit)}>
+        <Stepper activeStep={activeStep} alternativeLabel={stepperOrientation === 'horizontal'} orientation={stepperOrientation}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
+              {stepperOrientation === 'vertical' && (
+                <StepContent>
+                  {activeStep === 0 && <PersonalData $currentStepper={stepperOrientation} />}
+                  {activeStep === 1 && <ContactData $currentStepper={stepperOrientation} />}
+                  {activeStep === 2 && <SoftSkills $currentStepper={stepperOrientation} />}
+                  {activeStep === 3 && <HardSkills $currentStepper={stepperOrientation} />}
+                </StepContent>
+              )}
             </Step>
           ))}
         </Stepper>
-
-        {activeStep === 0 && <PersonalData />}
-        {activeStep === 1 && <ContactData />}
-        {activeStep === 2 && <SoftSkills />}
-        {activeStep === 3 && <HardSkills />}
+        {stepperOrientation === 'horizontal' && (
+          <>
+            {activeStep === 0 && <PersonalData />}
+            {activeStep === 1 && <ContactData />}
+            {activeStep === 2 && <SoftSkills />}
+            {activeStep === 3 && <HardSkills />}
+          </>
+        )}
 
         <ButtonWrapper>
           {activeStep > 0 && (
