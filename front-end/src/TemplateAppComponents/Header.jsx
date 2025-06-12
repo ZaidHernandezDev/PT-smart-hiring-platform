@@ -73,6 +73,11 @@ const LogOut = styled(motion.button)`
   line-height: 0;
   color: #294919;
 `;
+const Logo = styled.img`
+  height: 60px;
+  width: auto;
+`;
+
 
 export default function Header({ button }) {
   const { logout, user } = useContext(AuthContext);
@@ -81,7 +86,7 @@ export default function Header({ button }) {
     <HeaderWrapper initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
       <motion.h1 className="fs-4" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
         <Link to="/">
-          <img src="#" alt="Wudertec logo" />
+          <img src="/img/logo.png" alt="Wudertec logo" />
         </Link>
       </motion.h1>
       {button === 'login' && (
