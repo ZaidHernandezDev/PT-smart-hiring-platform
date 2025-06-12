@@ -4,7 +4,7 @@ import { FaUser } from 'react-icons/fa';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { color, motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 const HeaderWrapper = styled(motion.header)`
   display: flex;

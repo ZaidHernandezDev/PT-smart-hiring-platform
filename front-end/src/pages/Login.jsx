@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -66,7 +66,7 @@ const Button = styled(motion.button)`
   }
 `;
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled(motion.p)`
   margin: 0 1rem;
   color: red;
 `;
@@ -112,15 +112,39 @@ export default function () {
       <TitleWrapper>
         <Title>RECURSOS HUMANOS</Title>
         <SubTitle>RECLUTAMIENTO</SubTitle>
-         <img src="/img/monos.png" alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px' }} />
+        <img src="/img/monos.png" alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px' }} />
       </TitleWrapper>
       <FormWrapper onSubmit={handleSubmit(submitter, handleErrors)}>
         <Label htmlFor="username">Username</Label>
         <Input id="username" type="text" {...register('username')} />
-        {errors.username && <ErrorMessage>{errors.username.message}</ErrorMessage>}
+        <AnimatePresence mode="wait">
+          {errors.username && (
+            <ErrorMessage
+              key="username-error"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.username.message}
+            </ErrorMessage>
+          )}
+        </AnimatePresence>
         <Label htmlFor="password">Password</Label>
         <Input id="password" type="password" {...register('password')} />
-        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        <AnimatePresence mode="wait">
+          {errors.password && (
+            <ErrorMessage
+              key="password-error"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.password.message}
+            </ErrorMessage>
+          )}
+        </AnimatePresence>
         <Button type="submit" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
           Iniciar sesión
         </Button>
