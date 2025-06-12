@@ -8,6 +8,7 @@ const TitleContainer = styled.h2`
   border: 1px solid #88b87660;
   text-transform: uppercase;
   font-size: 1.75rem;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
 export default function Title({ children }) {

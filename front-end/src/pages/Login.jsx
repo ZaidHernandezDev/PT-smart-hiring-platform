@@ -6,9 +6,13 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
+import monos from '/img/monos.png';
 
 const LoginWrapper = styled.div`
   display: flex;
+  flex-direction: ${({ $direction }) => $direction};
   flex: 1;
   justify-content: space-evenly;
   align-items: center;
@@ -29,7 +33,7 @@ const SubTitle = styled.h3`
 const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: ${({ $width }) => $width};
   gap: 0.5rem;
 `;
 
@@ -44,19 +48,29 @@ const Input = styled.input`
   border: none;
   border-radius: 3rem;
   padding: 0 4%;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
-const Button = styled.button`
+const Button = styled(motion.button)`
   background-image: linear-gradient(90deg, #3a603f, #b3d168);
   margin: 1.5rem 2rem;
-  padding: 0.25rem 0;
-  border: none;
+  padding: 0.375rem 1rem;
+  text-transform: uppercase;
+  border: 2px solid #dce6d8;
   border-radius: 3rem;
+  font-weight: 600;
+  text-decoration: none;
   color: white;
   font-size: 1.25rem;
+
+  &:hover {
+    background-image: linear-gradient(90deg, white, white);
+    color: #294919;
+    border: 2px solid #294919;
+  }
 `;
 
-const ErrorMessage = styled.p`
+const ErrorMessage = styled(motion.p)`
   margin: 0 1rem;
   color: red;
 `;
@@ -67,6 +81,15 @@ const schema = yup.object().shape({
 });
 
 export default function () {
+  const direction = useResponsiveValues([{ width: 850, value: 'column' }], 'row');
+  const displayImage = useResponsiveValues([{ width: 850, value: 'none' }], 'block');
+  const formWidth = useResponsiveValues(
+    [
+      { width: 425, value: '90vw' },
+      { width: 850, value: '60vw' },
+    ],
+    '30vw'
+  );
   const redirect = useNavigate();
 
   const { login } = useContext(AuthContext);
@@ -93,25 +116,51 @@ export default function () {
       icon: 'error',
       title: 'Error al iniciar sesión',
       html: messages,
-      backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))'
+      backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))',
     });
   };
 
   return (
-    <LoginWrapper>
+    <LoginWrapper $direction={direction}>
       <TitleWrapper>
         <Title>RECURSOS HUMANOS</Title>
         <SubTitle>RECLUTAMIENTO</SubTitle>
-         <img src="/img/monos.png" alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px' }} />
+        <img src={monos} alt="Reclutamiento" style={{ marginTop: '1rem', width: '300px', display: displayImage }} />
       </TitleWrapper>
-      <FormWrapper onSubmit={handleSubmit(submitter, handleErrors)}>
+      <FormWrapper $width={formWidth} onSubmit={handleSubmit(submitter, handleErrors)}>
         <Label htmlFor="username">Username</Label>
         <Input id="username" type="text" {...register('username')} />
-        {errors.username && <ErrorMessage>{errors.username.message}</ErrorMessage>}
+        <AnimatePresence mode="wait">
+          {errors.username && (
+            <ErrorMessage
+              key="username-error"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.username.message}
+            </ErrorMessage>
+          )}
+        </AnimatePresence>
         <Label htmlFor="password">Password</Label>
         <Input id="password" type="password" {...register('password')} />
-        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
-        <Button type="submit">Iniciar sesión</Button>
+        <AnimatePresence mode="wait">
+          {errors.password && (
+            <ErrorMessage
+              key="password-error"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {errors.password.message}
+            </ErrorMessage>
+          )}
+        </AnimatePresence>
+        <Button type="submit" whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.1 }}>
+          Iniciar sesión
+        </Button>
       </FormWrapper>
     </LoginWrapper>
   );

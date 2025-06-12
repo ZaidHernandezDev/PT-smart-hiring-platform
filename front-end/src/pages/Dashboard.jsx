@@ -10,6 +10,10 @@ const StyledTableContainer = styled(TableContainer)`
   grid-column: 1 / -1;
 `;
 
+const StyledCell = styled(TableCell)`
+  padding: 0.5rem;
+`;
+
 const pages = [
   { label: 'Home', url: '/', icon: <FaHome /> },
   { label: 'Dashboard', url: '/dashboard' },
@@ -61,28 +65,28 @@ export default function Dashboard() {
           <Table>
             <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
               <TableRow>
-                <TableCell align='center'>Puesto</TableCell>
-                <TableCell align='center'>Área</TableCell>
-                <TableCell align='center'>Total de solicitudes</TableCell>
-                <TableCell align='center'>Solicitudes recomendadas</TableCell>
-                <TableCell align='center'>Solicitudes no recomendadas</TableCell>
-                <TableCell align='center'>Detalles</TableCell>
+                <StyledCell align="center">Puesto</StyledCell>
+                <StyledCell align="center">Área</StyledCell>
+                <StyledCell align="center">Total de solicitudes</StyledCell>
+                <StyledCell align="center">Solicitudes recomendadas</StyledCell>
+                <StyledCell align="center">Solicitudes no recomendadas</StyledCell>
+                <StyledCell align="center">Detalles</StyledCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {paginatedRows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell align='center'>{row.puesto}</TableCell>
-                  <TableCell align='center'>{row.area}</TableCell>
-                  <TableCell align='center'>{row.total}</TableCell>
-                  <TableCell align='center'>{row.recomendadas}</TableCell>
-                  <TableCell align='center'>{row.noRecomendadas}</TableCell>
-                  <TableCell align='center'>
-                    <Link href={`dashboard/detalles/${row.id}`} underline="hover" color='#294919'>
+                  <StyledCell align="center">{row.puesto}</StyledCell>
+                  <StyledCell align="center">{row.area}</StyledCell>
+                  <StyledCell align="center">{row.total}</StyledCell>
+                  <StyledCell align="center">{row.recomendadas}</StyledCell>
+                  <StyledCell align="center">{row.noRecomendadas}</StyledCell>
+                  <StyledCell align="center">
+                    <Link href={`dashboard/detalles/${row.id}`} underline="hover" color="#294919">
                       Ver más
                     </Link>
-                  </TableCell>
+                  </StyledCell>
                 </TableRow>
               ))}
             </TableBody>
