@@ -24,7 +24,6 @@ export default function Home() {
       <BreadCrumb items={pages} size={size} />
       <MainCard title={'Tecnologías de la información'} rowsheight="17.5rem" cols={cols} size={size}>
         <JobCard title="Front-end" image={frontEndImage} link="/front-end"></JobCard>
-        <JobCard title="Front-end" image={frontEndImage} link="/front-end"></JobCard>
       </MainCard>
     </>
   );

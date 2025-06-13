@@ -39,15 +39,15 @@ export default function ContactData({ $currentStepper }) {
     <FormWrapper $stepper={$currentStepper} $cols={cols} variants={containerVariants} initial="initial" animate="animate">
       <motion.div variants={itemVariants}>
         <Controller
-          name="mail"
+          name="email"
           control={control}
-          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Correo electrónico" name="mail" />}
+          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Correo electrónico" name="email" />}
         />
       </motion.div>
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="phoneNumber"
+          name="phone"
           control={control}
           render={({ field, fieldState }) => (
             <StyledField
@@ -55,7 +55,7 @@ export default function ContactData({ $currentStepper }) {
               field={field}
               fieldState={fieldState}
               label="Número telefónico"
-              name="phoneNumber"
+              name="phone"
               slotProps={{
                 input: {
                   startAdornment: <InputAdornment position="start">+52</InputAdornment>,
@@ -73,10 +73,10 @@ export default function ContactData({ $currentStepper }) {
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="remoteExperience"
+          name="remote_experience"
           control={control}
           render={({ field, fieldState }) => (
-            <StyledField select field={field} fieldState={fieldState} label="¿Tienes experiencia en remoto?" name="remoteExperience">
+            <StyledField select field={field} fieldState={fieldState} label="¿Tienes experiencia en remoto?" name="remote_experience">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
@@ -89,17 +89,17 @@ export default function ContactData({ $currentStepper }) {
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="portFolioLink"
+          name="portfolio_url"
           control={control}
           render={({ field, fieldState }) => (
-            <StyledField field={field} fieldState={fieldState} label="Link a portafolio (Opcional)" name="portFolioLink" />
+            <StyledField field={field} fieldState={fieldState} label="Link a portafolio (Opcional)" name="portfolio_url" />
           )}
         />
       </motion.div>
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="salario"
+          name="salary_expectation"
           control={control}
           render={({ field, fieldState }) => (
             <StyledField
@@ -107,7 +107,7 @@ export default function ContactData({ $currentStepper }) {
               field={field}
               fieldState={fieldState}
               label="Salario mensual deseado ($ MXN)"
-              name="salario"
+              name="salary_expectation"
               slotProps={{
                 input: {
                   startAdornment: <InputAdornment position="start">$</InputAdornment>,

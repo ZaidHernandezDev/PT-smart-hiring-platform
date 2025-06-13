@@ -2,6 +2,8 @@ import pandas as pd
 import joblib
 from fastapi import FastAPI, Depends, HTTPException
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware  # 👈 importa el middleware
+
 
 from sqlalchemy.orm import Session
 
@@ -10,9 +12,20 @@ from schemas.candidate import Candidate
 from schemas.create_candidate import CandidateCreate
 from schemas.input_candidate import InputData
 
-
 app = FastAPI()
 model = joblib.load('entrenamiento.pkl') #cargando el modelo
+
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 RESPUESTA = {
     1 : "Candidato Aceptado", 

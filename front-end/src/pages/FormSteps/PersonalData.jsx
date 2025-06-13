@@ -72,9 +72,9 @@ export default function PersonalData({ $currentStepper }) {
     <FormWrapper $stepper={$currentStepper} $cols={cols} variants={containerVariants} initial="initial" animate="animate">
       <motion.div variants={itemVariants}>
         <Controller
-          name="name"
+          name="full_name"
           control={control}
-          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Nombre completo" name="name" />}
+          render={({ field, fieldState }) => <StyledField field={field} fieldState={fieldState} label="Nombre completo" name="full_name" />}
         />
       </motion.div>
 
@@ -100,7 +100,7 @@ export default function PersonalData({ $currentStepper }) {
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="state"
+          name="location"
           control={control}
           render={({ field: { onChange, value }, fieldState }) => (
             <Autocomplete
@@ -118,10 +118,10 @@ export default function PersonalData({ $currentStepper }) {
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="fullTime"
+          name="availability"
           control={control}
           render={({ field, fieldState }) => (
-            <StyledField select field={field} fieldState={fieldState} label="¿Disponibilidad tiempo completo?" name="fullTime">
+            <StyledField select field={field} fieldState={fieldState} label="¿Disponibilidad tiempo completo?" name="availability">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
@@ -134,10 +134,10 @@ export default function PersonalData({ $currentStepper }) {
 
       <motion.div variants={itemVariants}>
         <Controller
-          name="startNow"
+          name="start_date"
           control={control}
           render={({ field, fieldState }) => (
-            <StyledField select field={field} fieldState={fieldState} label="¿Puedes comenzar de inmediato?" name="startNow">
+            <StyledField select field={field} fieldState={fieldState} label="¿Puedes comenzar de inmediato?" name="start_date">
               {opcionesSiNo.map((opcion) => (
                 <MenuItem key={opcion} value={opcion}>
                   {opcion}
