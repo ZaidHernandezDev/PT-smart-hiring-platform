@@ -85,3 +85,46 @@ def update_result(candidate_id: int, result: int, db: Session = Depends(get_db))
     candidate.result = result
     db.commit()
     return {"message": f"Result updated to {result}"}
+
+# Obtener estadisticas
+@app.get("/candidates/stats")
+def get_candidate_stats(db: Session = Depends(get_db)):
+    total = db.query(Candidate).count()
+    accepted = db.query(Candidate).filter(Candidate.result == 1).count()
+    rejected = db.query(Candidate).filter(Candidate.result == 0).count()
+    return {
+        "total_candidates": total,
+        "accepted_candidates": accepted,
+        "rejected_candidates": rejected
+    }
+
+# resumen de los datos del usuario
+@app.get("/candidates/summary")
+def get_candidate_summary(db: Session = Depends(get_db)):
+    candidates = db.query(
+        Candidate.id,
+        Candidate.full_name,
+        Candidate.age,
+        Candidate.phone,
+        Candidate.email,
+        Candidate.result
+    ).all()
+
+    return [
+        {
+            "id": c[0],
+            "full_name": c[1],
+            "age": c[2],
+            "phone": c[3],
+            "email": c[4],
+            "result": c[5]
+        } for c in candidates
+    ]
+
+# Obtener candidato por ID
+@app.get("/candidates/{candidate_id}")
+def get_candidate(candidate_id: int, db: Session = Depends(get_db)):
+    candidate = db.query(Candidate).filter(Candidate.id == candidate_id).first()
+    if not candidate:
+        raise HTTPException(status_code=404, detail="Candidato no encontrado")
+    return candidate
