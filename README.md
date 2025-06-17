@@ -132,18 +132,7 @@ alembic init alembic
 
 ---
 
-```bash
+````bash
 alembic revision --autogenerate -m "Inicial"
 alembic upgrade head
 ```
-
-# Configuraciones de docker y .env
-🚀 Cómo usarlos
-
-Para desarrollo (usa automáticamente el override):
-cp .env.dev .env  # Docker Compose usa automáticamente .env
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
-
-Para producción:
-cp .env.prod .env
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
