@@ -8,6 +8,7 @@ import { AuthContext } from '../Auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import useResponsiveValues from '../Hooks/useResponsiveValues';
+import { validCredentials } from '../Auth/AuthUser';
 import monos from '/img/monos.png';
 
 const LoginWrapper = styled.div`
@@ -103,8 +104,20 @@ export default function () {
   });
 
   const submitter = (data) => {
-    login(data.username);
-    redirect('/dashboard');
+    const { username, password } = data;
+
+    // Validar con los datos locales
+    if (username === validCredentials.user && password === validCredentials.password) {
+      login(username); // Guardamos el usuario en el contexto
+      redirect('/dashboard');
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Credenciales inválidas',
+        text: 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.',
+        backdrop: 'linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(187, 14, 14, 0.95))',
+      });
+    }
   };
 
   const handleErrors = (formErrors) => {
