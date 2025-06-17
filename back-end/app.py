@@ -2,8 +2,7 @@ import pandas as pd
 import joblib
 from fastapi import FastAPI, Depends, HTTPException
 import numpy as np
-from fastapi.middleware.cors import CORSMiddleware 
-import os
+from fastapi.middleware.cors import CORSMiddleware  # 👈 importa el middleware
 
 
 from sqlalchemy.orm import Session
@@ -17,8 +16,7 @@ app = FastAPI()
 model = joblib.load('entrenamiento.pkl') #cargando el modelo
 
 origins = [
-    "http://localhost:5173", # Para dev
-    "http://frontend:5173",  # Para Docker
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
