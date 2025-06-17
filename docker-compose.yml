@@ -1,27 +1,12 @@
 version: '3.8'
 
 services:
-  # Servicio Nginx (Proxy Reverso para HTTPS)
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"    # HTTP (para redirección a HTTPS)
-      - "443:443"  # HTTPS
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Configuración de Nginx
-      - ./nginx/certbot/www:/var/www/certbot      # Certificados SSL (Certbot)
-      - ./nginx/certbot/conf:/etc/letsencrypt    # Certificados SSL (Certbot)
-    depends_on:
-      - front-end
-      - back-end
-    restart: unless-stopped
-
   front-end:
     build: ./front-end
     environment:
-      - VITE_API_URL=${API_URL:-https://smart-rh.com.mx/api}  # Cambia a HTTPS
-    expose:
-      - "8080"  # Expuesto internamente (no mapeado directamente al host)
+      - VITE_API_URL=${API_URL:-http://localhost:8000}
+    ports:
+      - "${FRONTEND_PORT:-8080}:${FRONTEND_PORT:-8080}"
     depends_on:
       - back-end
 
@@ -29,7 +14,7 @@ services:
     build: ./back-end
     environment:
       - DATABASE_URL=${DATABASE_URL:-sqlite:///./local.db}
-    expose:
-      - "8000"  # Expuesto internamente (no mapeado directamente al host)
+    ports:
+      - "8000:8000"
     volumes:
       - ./back-end:/app

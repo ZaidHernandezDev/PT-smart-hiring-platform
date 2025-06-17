@@ -19,9 +19,6 @@ model = joblib.load('entrenamiento.pkl') #cargando el modelo
 origins = [
     "http://localhost:5173", # Para dev
     "http://frontend:5173",  # Para Docker
-    "https://smart-rh.com.mx",          # Tu dominio en producción
-    "https://www.smart-rh.com.mx"       # Versión con www
-
 ]
 
 app.add_middleware(
