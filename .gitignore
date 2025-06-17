@@ -26,9 +26,16 @@
 /front-end/*.sw?
 
 # BACK END
+
+# Entorno virtual
+/back-end/.venv
 /back-end/venv
+
+# Archivos temporales 
 /back-end/__pycache__
 /back-end/.pytest_cache
+/back-end/*.py[cod]
+/back-end/*$py.class
 /back-end/.env
 
 # General
@@ -36,3 +43,4 @@
 .DS_Store
 *.log
 .env
+.env.*

@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   background-color: #ffffff50;
   border: 1px solid #88b87660;
   border-radius: 2rem;
+  box-shadow: 0.35rem 0.35rem 0.375rem #ccc;
 `;
 
 const CardTitle = styled.h3`
@@ -21,16 +22,16 @@ const CardTitle = styled.h3`
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(${({ cols }) => cols}, 1fr);
-  ${({ RowsHeight }) => (RowsHeight ? 'grid-auto-rows:' + RowsHeight + ';' : '')}
+  ${({ rowsheight }) => (rowsheight ? 'grid-auto-rows:' + rowsheight + ';' : '')}
   gap: 2rem 3%;
   width: 100%;
 `;
 
-export default function MainCard({ title, children, size = 'medium', cols = 3, RowsHeight}) {
+export default function MainCard({ title, children, size = 'medium', cols = 3, rowsheight}) {
   return (
     <Wrapper size={size}>
       {title && <CardTitle>{title}</CardTitle>}
-      <CardContainer cols={cols} RowsHeight={RowsHeight}>
+      <CardContainer cols={cols} rowsheight={rowsheight}>
         {children}
       </CardContainer>
     </Wrapper>

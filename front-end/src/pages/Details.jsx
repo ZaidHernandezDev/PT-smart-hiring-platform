@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import Title from '../styledElements/Title';
 import MainCard from '../TemplateAppComponents/MainCard';
 import BreadCrumb from '../styledElements/BreadCrumb';
@@ -7,10 +8,13 @@ import DetailsCard from '../styledElements/DetailsCard';
 import { FaHome } from 'react-icons/fa';
 import styled from 'styled-components';
 import DialogDetails from '../styledElements/DialogDetails';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
 
 const SectionWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: ${({ $cols }) => `repeat(${$cols}, 1fr)`};
+  grid-template-rows: 2.5rem;
+  grid-auto-rows: 13rem;
   gap: 1rem;
   padding: 0.5rem;
   border: 0.125rem solid ${({ border }) => border};
@@ -55,25 +59,39 @@ const puestos = [
   },
 ];
 
-const userData = [
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-  { name: 'Zaid Alberto Ramírez Hernández', mail: 'zaid@gmail.com', phone: '5620073976', salario: '20,000' },
-];
-
 export default function Details() {
+  const [recomendadas, setRecomendadas] = useState([]);
+  const [noRecomendadas, setNoRecomendadas] = useState([]);
+  const outerCols = useResponsiveValues([{ width: 800, value: 1 }], 2);
+  const containerWidth = useResponsiveValues([{ width: 600, value: 'large' }], 'medium');
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const innerCols = useResponsiveValues(
+    [
+      { width: 450, value: 1 },
+      { width: 800, value: 2 },
+      { width: 1100, value: 1 },
+    ],
+    2
+  );
 
-  const handleOpen = (user) => {
-    setSelectedUser(user);
-    setOpen(true);
+  useEffect(() => {
+    axios.get('http://localhost:8000/candidates/summary').then((res) => {
+      const data = res.data;
+      setRecomendadas(data.filter((d) => d.result === 1));
+      setNoRecomendadas(data.filter((d) => d.result === 0));
+    });
+  }, []);
+
+  const handleOpen = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:8000/candidates/${id}`);
+      setSelectedUser(res.data);
+      setOpen(true);
+    } catch (error) {
+      console.error('Error al obtener los detalles del candidato', error);
+    }
   };
 
   const handleClose = () => {
@@ -90,20 +108,27 @@ export default function Details() {
   return (
     <>
       <Title>Solicitudes del puesto</Title>
-      <BreadCrumb items={pages} />
-      <MainCard title={'Solicitudes para ' + puestos.find((puesto) => puesto.id === Number(id))?.puesto} cols={2}>
-        <SectionWrapper border="#87a17e">
+      <BreadCrumb items={pages} size={containerWidth} />
+      <MainCard title={'Solicitudes para ' + puestos.find((puesto) => puesto.id === Number(id))?.puesto} cols={outerCols} size={containerWidth}>
+        <SectionWrapper $cols={innerCols} border="#87a17e">
           <SectionTitle background="#87a17e80">Recomendados</SectionTitle>
-          {userData.map((element, index) => (
-            <DetailsCard {...element} key={index} onClick={() => handleOpen(element)} />
-          ))}
+          {recomendadas.length === 0 ? (
+            <p>No hay solicitudes recomendadas.</p>
+          ) : (
+            recomendadas.map((element, index) => <DetailsCard key={index} {...element} onClick={() => handleOpen(element.id)} />)
+          )}
         </SectionWrapper>
-        <SectionWrapper border="#be1e2d">
+        <SectionWrapper $cols={innerCols} border="#be1e2d">
           <SectionTitle background="#be1e2d80">No recomendados</SectionTitle>
+          {noRecomendadas.length === 0 ? (
+            <p>No hay solicitudes no recomendadas.</p>
+          ) : (
+            noRecomendadas.map((element, index) => <DetailsCard key={index} {...element} onClick={() => handleOpen(element.id)} />)
+          )}
         </SectionWrapper>
       </MainCard>
       {/* Modal de más información */}
-      <DialogDetails open={open} handleClose={handleClose} selectedUser={selectedUser}/>
+      <DialogDetails open={open} handleClose={handleClose} selectedUser={selectedUser} />
     </>
   );
 }

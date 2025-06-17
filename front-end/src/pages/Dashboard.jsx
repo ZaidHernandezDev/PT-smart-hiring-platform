@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Title from '../styledElements/Title';
 import MainCard from '../TemplateAppComponents/MainCard';
 import BreadCrumb from '../styledElements/BreadCrumb';
@@ -10,47 +11,56 @@ const StyledTableContainer = styled(TableContainer)`
   grid-column: 1 / -1;
 `;
 
+const StyledCell = styled(TableCell)`
+  padding: 0.5rem;
+`;
+
 const pages = [
   { label: 'Home', url: '/', icon: <FaHome /> },
   { label: 'Dashboard', url: '/dashboard' },
-];
-
-const puestos = [
-  {
-    id: 1,
-    puesto: 'Desarrollador Frontend',
-    area: 'Tecnología',
-    total: 20,
-    recomendadas: 12,
-    noRecomendadas: 8,
-  },
-  {
-    id: 2,
-    puesto: 'Diseñador UX',
-    area: 'Diseño',
-    total: 10,
-    recomendadas: 7,
-    noRecomendadas: 3,
-  },
-  {
-    id: 3,
-    puesto: 'Reclutador',
-    area: 'Recursos Humanos',
-    total: 15,
-    recomendadas: 10,
-    noRecomendadas: 5,
-  },
 ];
 
 export default function Dashboard() {
   const [page, setPage] = useState(0);
   const rowsPerPage = 5;
 
+  const [stats, setStats] = useState({
+    total: 0,
+    recomendadas: 0,
+    noRecomendadas: 0,
+  });
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/candidates/stats')
+      .then((res) => {
+        setStats({
+          total: res.data.total_candidates,
+          recomendadas: res.data.accepted_candidates,
+          noRecomendadas: res.data.rejected_candidates,
+        });
+      })
+      .catch((err) => {
+        console.error('Error al obtener estadísticas:', err);
+      });
+  }, []);
+
+  const puestos = [
+    {
+      id: 1,
+      puesto: 'Desarrollador Frontend',
+      area: 'Informática',
+      total: stats.total,
+      recomendadas: stats.recomendadas,
+      noRecomendadas: stats.noRecomendadas,
+    },
+  ];
+
+  const paginatedRows = puestos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
-
-  const paginatedRows = puestos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <>
@@ -61,28 +71,28 @@ export default function Dashboard() {
           <Table>
             <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
               <TableRow>
-                <TableCell align='center'>Puesto</TableCell>
-                <TableCell align='center'>Área</TableCell>
-                <TableCell align='center'>Total de solicitudes</TableCell>
-                <TableCell align='center'>Solicitudes recomendadas</TableCell>
-                <TableCell align='center'>Solicitudes no recomendadas</TableCell>
-                <TableCell align='center'>Detalles</TableCell>
+                <StyledCell align="center">Puesto</StyledCell>
+                <StyledCell align="center">Área</StyledCell>
+                <StyledCell align="center">Total de solicitudes</StyledCell>
+                <StyledCell align="center">Solicitudes recomendadas</StyledCell>
+                <StyledCell align="center">Solicitudes no recomendadas</StyledCell>
+                <StyledCell align="center">Detalles</StyledCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {paginatedRows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell align='center'>{row.puesto}</TableCell>
-                  <TableCell align='center'>{row.area}</TableCell>
-                  <TableCell align='center'>{row.total}</TableCell>
-                  <TableCell align='center'>{row.recomendadas}</TableCell>
-                  <TableCell align='center'>{row.noRecomendadas}</TableCell>
-                  <TableCell align='center'>
-                    <Link href={`dashboard/detalles/${row.id}`} underline="hover" color='#294919'>
+                  <StyledCell align="center">{row.puesto}</StyledCell>
+                  <StyledCell align="center">{row.area}</StyledCell>
+                  <StyledCell align="center">{row.total}</StyledCell>
+                  <StyledCell align="center">{row.recomendadas}</StyledCell>
+                  <StyledCell align="center">{row.noRecomendadas}</StyledCell>
+                  <StyledCell align="center">
+                    <Link href={`dashboard/detalles/${row.id}`} underline="hover" color="#294919">
                       Ver más
                     </Link>
-                  </TableCell>
+                  </StyledCell>
                 </TableRow>
               ))}
             </TableBody>

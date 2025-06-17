@@ -4,6 +4,6 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
+html {
+  font-size: clamp(16px, 1.1vw, 24px);
 }

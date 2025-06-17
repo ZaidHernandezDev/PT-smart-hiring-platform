@@ -1,10 +1,12 @@
 import { styled } from 'styled-components';
+import { motion } from 'motion/react';
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { FaSquareXTwitter } from 'react-icons/fa6';
+import useResponsiveValues from '../Hooks/useResponsiveValues';
 
-const FooterContainer = styled.footer`
+const FooterContainer = styled(motion.footer)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: ${({ $cols }) => `repeat(${$cols}, 1fr)`};
   grid-column-gap: 0.625rem;
   border-radius: 2rem 2rem 0 0;
   background-color: #18300c;
@@ -13,12 +15,12 @@ const FooterContainer = styled.footer`
   padding: 1rem;
 `;
 
-const Ul = styled.ul`
+const TextList = styled.ul`
   padding: 0;
   margin: 0;
-`
+`;
 
-const Li = styled.li`
+const GeneralLi = styled.li`
   list-style-type: none;
   margin: 0.5rem 0;
 
@@ -28,80 +30,93 @@ const Li = styled.li`
   }
 `;
 
+const IconList = styled.ul`
+  display: flex;
+  padding: 0;
+  justify-content: center;
+`;
+
 const IconLi = styled.li`
   font-size: 3em;
   margin: 0 2%;
-  display: inline;
+  list-style-type: none;
 
   & a {
     color: white;
+    display: block;
+  }
+
+  & a:hover {
+    color: linear-gradient(225deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
   }
 `;
 
 export default function Footer() {
+  const cols = useResponsiveValues([{ width: 700, value: 1 }], 3);
+
   return (
-    <FooterContainer>
+    <FooterContainer $cols={cols} initial={{ y: 100, opacity: 0 }} animate={{ y: 10, opacity: 1 }} transition={{ type: 'spring', stiffness: 75 }}>
       <div>
         <h5>Información de contacto</h5>
-        <Ul>
-          <Li>info@wundertec.com</Li>
-          <Li>+52 55 4431 4216</Li>
-          <Li>
+        <TextList>
+          <GeneralLi>info@wundertec.com</GeneralLi>
+          <GeneralLi>+52 55 4431 4216</GeneralLi>
+          <GeneralLi>
             José María Ibarrarán 47, 8A. San José Insurgentes, C.P.
             <br />
             03900, Ciudad de México
-          </Li>
-          <Li>
+          </GeneralLi>
+          <GeneralLi>
             <a href="https://www.wundertec.com/es/">https://www.wundertec.com/es/</a>
-          </Li>
-        </Ul>
+          </GeneralLi>
+        </TextList>
       </div>
       <div>
         <h5>Enlaces importantes</h5>
-        <Ul>
-          <Li>Sobre nosotros</Li>
-          <Li>Terminos y condiciones</Li>
-          <Li>Politicas de privacidad</Li>
-          <Li>Aviso de cookies</Li>
-          <Li>Preguntas frecuentes</Li>
-        </Ul>
+        <TextList>
+          <GeneralLi>Sobre nosotros</GeneralLi>
+          <GeneralLi>Terminos y condiciones</GeneralLi>
+          <GeneralLi>Politicas de privacidad</GeneralLi>
+          <GeneralLi>Aviso de cookies</GeneralLi>
+          <GeneralLi>Preguntas frecuentes</GeneralLi>
+        </TextList>
       </div>
       <div>
         <div>
           <h5>Redes sociales</h5>
-          <Ul>
+          <IconList>
             <IconLi>
-              <a href="https://www.facebook.com/wundertec">
+              <motion.a href="https://www.facebook.com/wundertec" whileHover={{ scale: 1.2, color: '#1877f2' }}>
                 <FaFacebook />
-              </a>
+              </motion.a>
             </IconLi>
             <IconLi>
-              <a href="https://www.instagram.com/wundertec/">
+              <motion.a href="https://www.instagram.com/wundertec/" whileHover={{ scale: 1.2, color: '#E1306C' }}>
                 <FaInstagram />
-              </a>
+              </motion.a>
             </IconLi>
             <IconLi>
-              <a href="https://x.com/wundertec">
+              <motion.a href="https://x.com/wundertec" whileHover={{ scale: 1.2, color: '#000' }}>
                 <FaSquareXTwitter />
-              </a>
+              </motion.a>
             </IconLi>
             <IconLi>
-              <a href="https://www.youtube.com/@wundertec4262">
+              <motion.a href="https://www.youtube.com/@wundertec4262" whileHover={{ scale: 1.2, color: '#c4302b' }}>
                 <FaYoutube />
-              </a>
+              </motion.a>
             </IconLi>
-          </Ul>
+          </IconList>
         </div>
         <div>
           <h5>Créditos</h5>
-          <Ul>
-            <Li>García Cortes Erick Gabriel</Li>
-            <Li>Guarneros Solano Denice</Li>
-            <Li>Guevara Samperio Kylie Yael</Li>
-            <Li>Ramírez Hernández Zaid Alberto</Li>
-            <Li>Ramos Sánchez Ilian Xóchitl</Li>
-            <Li>Velázquez Corona David</Li>
-          </Ul>
+          <TextList>
+            <GeneralLi>García Cortes Erick Gabriel</GeneralLi>
+            <GeneralLi>Guarneros Solano Denice</GeneralLi>
+            <GeneralLi>Guevara Samperio Kylie Yael</GeneralLi>
+            <GeneralLi>Ramírez Hernández Zaid Alberto</GeneralLi>
+            <GeneralLi>Ramos Sánchez Ilian Xóchitl</GeneralLi>
+            <GeneralLi>Velázquez Corona David</GeneralLi>
+          </TextList>
         </div>
       </div>
     </FooterContainer>
