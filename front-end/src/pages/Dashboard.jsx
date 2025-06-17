@@ -31,10 +31,8 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
     axios
-      .get(`${apiUrl}/candidates/stats`)
+      .get('http://localhost:8000/candidates/stats')
       .then((res) => {
         setStats({
           total: res.data.total_candidates,
@@ -44,12 +42,6 @@ export default function Dashboard() {
       })
       .catch((err) => {
         console.error('Error al obtener estadísticas:', err);
-        // Opcional: Mostrar notificación al usuario
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudieron cargar las estadísticas',
-          icon: 'error',
-        });
       });
   }, []);
 
