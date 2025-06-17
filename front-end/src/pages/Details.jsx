@@ -77,20 +77,39 @@ export default function Details() {
   );
 
   useEffect(() => {
-    axios.get('http://localhost:8000/candidates/summary').then((res) => {
-      const data = res.data;
-      setRecomendadas(data.filter((d) => d.result === 1));
-      setNoRecomendadas(data.filter((d) => d.result === 0));
-    });
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+    axios
+      .get(`${apiUrl}/candidates/summary`)
+      .then((res) => {
+        const data = res.data;
+        setRecomendadas(data.filter((d) => d.result === 1));
+        setNoRecomendadas(data.filter((d) => d.result === 0));
+      })
+      .catch((error) => {
+        console.error('Error al obtener el resumen de candidatos:', error);
+        // Opcional: Mostrar notificación al usuario
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo cargar la lista de candidatos',
+          icon: 'error',
+        });
+      });
   }, []);
 
   const handleOpen = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:8000/candidates/${id}`);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const res = await axios.get(`${apiUrl}/candidates/${id}`);
       setSelectedUser(res.data);
       setOpen(true);
     } catch (error) {
       console.error('Error al obtener los detalles del candidato', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudieron cargar los detalles del candidato',
+        icon: 'error',
+      });
     }
   };
 
