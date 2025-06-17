@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { steps, schemaArray, defaultValues } from './FormSteps/schemas';
 
@@ -42,7 +43,7 @@ const NavButton = styled(Button)`
 
 export default function FrontEnd() {
   const stepperOrientation = useResponsiveValues([{ width: 700, value: 'vertical' }], 'horizontal');
-
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const currentSchema = schemaArray[activeStep];
   const LAST_STEP = steps.length - 1;
@@ -60,6 +61,40 @@ export default function FrontEnd() {
     }
 
     console.log('data', data);
+
+    try {
+      const response = await fetch('http://localhost:8000/candidates/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), // 'data' viene del formulario react-hook-form
+      });
+
+      const result = await response.json();
+
+      Swal.fire({
+        title: '¡Registro completado!',
+        html: `
+              <p>Tu solicitud ha sido registrada exitosamente.</p>
+              <p><strong>Resultado de la evaluación:</strong></p>
+              <h3 style="color: ${result.prediction === '' ? '#18300c;' : '#8B0000;'}">${result.prediction}</h3>
+              <p>Gracias por postularte. Nuestro equipo de recursos humanos revisará tu perfil en breve.</p>
+            `,
+        icon: 'success',
+        confirmButtonText: 'Volver al inicio',
+        confirmButtonColor: '#18300c',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => navigate('/'));
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Ocurrió un problema al enviar la solicitud. Intenta de nuevo.',
+        icon: 'error',
+      });
+    }
   };
 
   const handleBack = () => {

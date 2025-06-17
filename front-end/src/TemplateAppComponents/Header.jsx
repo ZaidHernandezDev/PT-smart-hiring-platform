@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
 import Tooltip from '@mui/material/Tooltip';
-import brandImage from '../../public/img/logo.png';
+import brandImage from '/img/logo.png';
 import useResponsiveValues from '../Hooks/useResponsiveValues';
 
 const HeaderWrapper = styled(motion.header)`

@@ -14,12 +14,13 @@ const FormWrapper = styled(motion.div)`
 `;
 
 const softSkills = [
-  { name: 'trabajoRemoto', label: 'Capacidad de trabajar en equipo remotamente.' },
+  { name: 'teamwork', label: 'Capacidad de trabajar en equipo remotamente.' },
   { name: 'time_management', label: 'Gestionar tiempos y cumplir plazos.' },
   { name: 'problem_solving', label: 'Capacidad para resolver problemas.' },
-  { name: 'usoHerramientas', label: 'Adaptabilidad de uso de herramientas.' },
+  { name: 'adaptability', label: 'Adaptabilidad de uso de herramientas.' },
   { name: 'communication', label: 'Nivel de comunicación con el equipo.' },
   { name: 'autonomy', label: 'Grado de autonomía.' },
+  { name: 'english_level', label: 'Nivel de inglés' },
 ];
 
 const containerVariants = {

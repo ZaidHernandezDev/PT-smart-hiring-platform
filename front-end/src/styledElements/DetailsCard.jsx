@@ -13,24 +13,24 @@ const List = styled.ul`
   padding: 0;
 `;
 
-export default function DetailsCard({ name, mail, phone, salario, onClick }) {
+export default function DetailsCard({ full_name, age, email, phone, onClick }) {
   return (
-    <Card sx={{ bgcolor: '#e0e0e0', border: 1 }}>
-      <CardActionArea onClick={onClick}>
-        <CardContent>
-          <Title>{name}</Title>
+    <Card sx={{ bgcolor: '#e0e0e0', border: 1, height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardActionArea onClick={onClick} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Title>{full_name}</Title>
           <List>
             <li>
+              <b>Edad: </b>
+              {age}
+            </li>
+            <li>
               <b>E-mail: </b>
-              {mail}
+              {email}
             </li>
             <li>
               <b>Teléfono: </b>
               {phone}
-            </li>
-            <li>
-              <b>Salario: </b>
-              {salario}
             </li>
           </List>
         </CardContent>

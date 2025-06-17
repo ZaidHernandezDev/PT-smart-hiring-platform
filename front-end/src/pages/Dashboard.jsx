@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Title from '../styledElements/Title';
 import MainCard from '../TemplateAppComponents/MainCard';
 import BreadCrumb from '../styledElements/BreadCrumb';
@@ -19,42 +20,47 @@ const pages = [
   { label: 'Dashboard', url: '/dashboard' },
 ];
 
-const puestos = [
-  {
-    id: 1,
-    puesto: 'Desarrollador Frontend',
-    area: 'Tecnología',
-    total: 20,
-    recomendadas: 12,
-    noRecomendadas: 8,
-  },
-  {
-    id: 2,
-    puesto: 'Diseñador UX',
-    area: 'Diseño',
-    total: 10,
-    recomendadas: 7,
-    noRecomendadas: 3,
-  },
-  {
-    id: 3,
-    puesto: 'Reclutador',
-    area: 'Recursos Humanos',
-    total: 15,
-    recomendadas: 10,
-    noRecomendadas: 5,
-  },
-];
-
 export default function Dashboard() {
   const [page, setPage] = useState(0);
   const rowsPerPage = 5;
 
+  const [stats, setStats] = useState({
+    total: 0,
+    recomendadas: 0,
+    noRecomendadas: 0,
+  });
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/candidates/stats')
+      .then((res) => {
+        setStats({
+          total: res.data.total_candidates,
+          recomendadas: res.data.accepted_candidates,
+          noRecomendadas: res.data.rejected_candidates,
+        });
+      })
+      .catch((err) => {
+        console.error('Error al obtener estadísticas:', err);
+      });
+  }, []);
+
+  const puestos = [
+    {
+      id: 1,
+      puesto: 'Desarrollador Frontend',
+      area: 'Informática',
+      total: stats.total,
+      recomendadas: stats.recomendadas,
+      noRecomendadas: stats.noRecomendadas,
+    },
+  ];
+
+  const paginatedRows = puestos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
-
-  const paginatedRows = puestos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <>
