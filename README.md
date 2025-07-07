@@ -85,54 +85,76 @@ Estos enlaces te ayudarán a entender y aprovechar al máximo las herramientas q
 
 ### 🐍 Instalar el Backend
 
+Si estamos dentro de la carpeta `front-end` necesitamos cambiar a la carpeta `back-end` con el siguiente comando
+
 ```bash
 cd ../back-end
 ```
 
-Crear entorno virtual
+
+**Requisitos previos**
+
+- Tener Python 3.8+ instalado.
+
+- Si estás en Windows, es posible que necesites configurar la política de ejecución de PowerShell para permitir la activación del entorno virtual. Abre PowerShell como Administrador y ejecuta:
+
+```
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+```
+Escribe Y y presiona Enter para confirmar.
+
+**Crear entorno virtual**
 
 ```bash
 python -m venv venv
 ```
 
-Activar entorno virtual
+**Activar entorno virtual**
+
 - En PowerShell: `venv\Scripts\Activate.ps1`
 
 - En cmd: `venv\Scripts\activate.bat`
 
 - En Unix/macOS: `source venv/bin/activate`
 
-Instalar dependencias
+**Instalar dependencias**
+
+Las dependencias necesarias ya están listadas en el archivo `requirements.txt`, por lo que basta con ejecutar:
 
 ```bash
-pip install fastapi uvicorn sqlalchemy alembic
+pip install -r requirements.txt
 ```
 
 Luego puedes correr el backend con:
 
 ```bash 
-uvicorn app.main:app --reload
+uvicorn app:app --reload
 ```
 
 Esto levanta el backend en http://localhost:8000
 
-### 📂 Variables de entorno
+## Imágenes sobre las vistas de la aplicación
 
----
+**Vista de inicio**
 
-Crea un archivo .env en /back-end/ para definir variables sensibles como la conexión a la base de datos.
+![Vista de inicio](./README_imgs/home.jpeg)
 
-Ejemplo:
-DATABASE_URL=sqlite:///./app.db
+**Vista de formulario**
 
-🧪 Migraciones de base de datos (con Alembic)
-alembic init alembic
+![Vista de formulario](./README_imgs/form.jpeg)
 
-### Configura alembic.ini y env.py con tu URL de DB
+**Vista de usuario aceptado**
 
----
+![Vista de usuario aceptado](./README_imgs/aceptado.png)
 
-````bash
-alembic revision --autogenerate -m "Inicial"
-alembic upgrade head
-```
+**Vista de usuario no aceptado**
+
+![Vista de usuario no aceptado](./README_imgs/no_aceptado.png)
+
+**Vista de login**
+
+![Vista de login](./README_imgs/login.jpeg)
+
+**Vista de dashboard**
+
+![Vista de dashboard](./README_imgs/dashboard.jpeg)
